@@ -11,14 +11,13 @@ import java.util.List;
 public class AtivacaoClienteService {
 
     @Autowired
-    private List<Notificador> notificadores;
+    private Notificador notificador;
 
 
     public void ativar(Cliente cliente){
         cliente.ativar();
-        for (Notificador notificador : notificadores){
-            notificador.notificar(cliente,"Seu cadastro está ativo no sistema");
-        }
+        this.notificador.notificar(cliente,"Seu cadastro está ativo no sistema");
+
 
     }
 
