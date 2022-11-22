@@ -8,9 +8,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class NotificadorEmail implements Notificador {
 
-
-
-
     public NotificadorEmail() {
         System.out.println("NotificadorEmail");
 
@@ -21,7 +18,7 @@ public class NotificadorEmail implements Notificador {
     @Override
     public void notificar(Cliente cliente, String mensagem) {
 
-        System.out.printf("Notificando %s através do e-mail %s: %s pelo servidor %s",
+        System.out.printf("Notificando %s através do e-mail %s: %s",
                 cliente.getNome(), cliente.getEmail(), mensagem);
     }
 
