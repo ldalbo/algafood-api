@@ -7,13 +7,13 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-@Profile("prod")
+
 @TipoDoNotificador(NivelUrgencia.SEM_URGENCIA)
 @Component
 public class NotificadorEmail implements Notificador {
 
     public NotificadorEmail() {
-        System.out.println("NotificadorEmail");
+        System.out.println("Construtor NotificadorEmail");
 
     }
 

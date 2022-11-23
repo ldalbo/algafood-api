@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 public class NotificadorSMS implements Notificador {
 
     public NotificadorSMS() {
-        System.out.println("Notificador SMS");
+        System.out.println("Contrutor Notificador SMS");
 
     }
 
