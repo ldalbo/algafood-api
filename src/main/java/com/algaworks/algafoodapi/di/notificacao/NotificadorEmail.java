@@ -19,7 +19,7 @@ public class NotificadorEmail implements Notificador {
 
     @Override
     public void notificar(Cliente cliente, String mensagem) {
-       // System.out.println("Porta " + properties.getPortaServidor() );
+        System.out.println("Porta " + properties.getPortaServidor() );
         System.out.println("Host " +  properties.getHostServidor() );
 
 

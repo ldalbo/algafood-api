@@ -9,13 +9,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class MeuPrimeiroController {
+    @Autowired
+    private AtivacaoClienteService ativacaoClienteService;
+
 
     public MeuPrimeiroController(AtivacaoClienteService ativacaoClienteService) {
         this.ativacaoClienteService = ativacaoClienteService;
         System.out.println("Entrando em MeuPrimeiroController" + ativacaoClienteService);
     }
-
-    private AtivacaoClienteService ativacaoClienteService;
 
 
     @GetMapping("/hello")

@@ -11,6 +11,19 @@ public class NotificadorProperties {
 
     private String hostServidor;
 
+
+
+    private String portaServidor;
+
+    public void setPortaServidor(String portaServidor) {
+        this.portaServidor = portaServidor;
+    }
+    public String getPortaServidor() {
+        return portaServidor;
+    }
+
+
+
     public String getHostServidor() {
         return hostServidor;
     }
