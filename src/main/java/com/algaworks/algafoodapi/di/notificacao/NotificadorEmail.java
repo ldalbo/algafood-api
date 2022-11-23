@@ -14,19 +14,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class NotificadorEmail implements Notificador {
 
-    @Value("${notificador.email.hostname}")
-    private String host;
-
-    @Value("${notificador.email.port}")
-    private Integer port;
-
-
-
+    @Autowired
+    NotificadorProperties properties;
 
     @Override
     public void notificar(Cliente cliente, String mensagem) {
-        System.out.println("Porta " + port );
-        System.out.println("Host " +  host );
+       // System.out.println("Porta " + properties.getPortaServidor() );
+        System.out.println("Host " +  properties.getHostServidor() );
 
 
         System.out.printf("Notificando %s através do e-mail %s: %s",
