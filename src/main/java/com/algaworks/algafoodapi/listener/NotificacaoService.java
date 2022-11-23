@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class NotificacaoService {
-    @TipoDoNotificador(NivelUrgencia.URGENCIA)
+    @TipoDoNotificador(NivelUrgencia.SEM_URGENCIA)
     @Autowired
     private Notificador notificador;
 
