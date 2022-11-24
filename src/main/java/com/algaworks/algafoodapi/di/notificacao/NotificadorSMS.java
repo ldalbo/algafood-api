@@ -7,11 +7,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class NotificadorSMS implements Notificador {
 
+    /*
     public NotificadorSMS() {
         System.out.println("Contrutor Notificador SMS");
 
     }
-
+*/
 
     @Override
     public void notificar(Cliente cliente, String mensagem) {

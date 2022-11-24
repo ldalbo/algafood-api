@@ -17,10 +17,20 @@ public class NotificadorEmail implements Notificador {
     @Autowired
     NotificadorProperties properties;
 
+    //@Autowired
+    // public String texto;
+    /*
+    public NotificadorEmail() {
+        this.texto = " passou pelo construtor";
+    }
+    */
+
+
     @Override
     public void notificar(Cliente cliente, String mensagem) {
         System.out.println("Porta " + properties.getPortaServidor() );
         System.out.println("Host " +  properties.getHostServidor() );
+     //   System.out.println("Variável não inicializada " +  texto );
 
 
         System.out.printf("Notificando %s através do e-mail %s: %s",
