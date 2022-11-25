@@ -30,4 +30,9 @@ public class CadastroCozinha {
         return manager.merge(cozinha);
     }
 
+    @Transactional
+    // EXTAMENTE IGUAL AO ADIOCIONAR
+    public Cozinha salvar(Cozinha cozinha){
+        return manager.merge(cozinha);
+    }
 }

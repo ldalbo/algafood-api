@@ -7,23 +7,19 @@ import java.util.Objects;
 // @Table(name="tab_cozinhas")
 public class Cozinha {
 
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
     private long Id;
 
-
-
-    // @Column(name="nom_cozinha")
     private String nome;
+
 
     public long getId() {
         return Id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         Id = id;
     }
 
@@ -34,6 +30,8 @@ public class Cozinha {
     public void setNome(String nome) {
         this.nome = nome;
     }
+
+
 
     @Override
     public boolean equals(Object o) {
@@ -49,6 +47,7 @@ public class Cozinha {
     public int hashCode() {
         return Objects.hash(Id);
     }
+
 
 
 
