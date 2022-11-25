@@ -1,4 +1,4 @@
-package com.algaworks.algafood;
+package com.algaworks.algafoodapi;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -8,6 +8,8 @@ public class AlgafoodApiApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(AlgafoodApiApplication.class, args);
+		System.out.println(" Iniciando Spring");
 	}
+
 
 }
