@@ -12,14 +12,14 @@ public class Cozinha {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
-    private int Id;
+    private long Id;
 
 
 
     // @Column(name="nom_cozinha")
     private String nome;
 
-    public int getId() {
+    public long getId() {
         return Id;
     }
 
