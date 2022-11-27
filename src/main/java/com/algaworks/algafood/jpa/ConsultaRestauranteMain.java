@@ -20,7 +20,7 @@ public class ConsultaRestauranteMain {
         List<Restaurante> todosRestaurantes = restaurantes.todos();
 
         for (Restaurante restaurante : todosRestaurantes){
-            System.out.println("Restaurante: " + restaurante.getNome());
+            System.out.println("Restaurante: " + restaurante.getNome() + " - " + restaurante.getCozinha().getNome());
         }
 
     }

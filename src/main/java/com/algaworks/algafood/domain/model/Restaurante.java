@@ -22,5 +22,10 @@ public class Restaurante {
     @Column(name="taxa_entrega",updatable = false)
     private BigDecimal taxaEntrega;
 
+    // MUITOS RESTAURANTES, PODEM APONTAR PARA
+    // UMA COZINHA
+    @ManyToOne
+    private Cozinha cozinha;
+
 
 }

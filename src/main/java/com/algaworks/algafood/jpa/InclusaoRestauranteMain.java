@@ -23,6 +23,8 @@ public class InclusaoRestauranteMain {
         restaurante1.setTaxaEntrega(taxa);
 
         restaurante.adicionar(restaurante1);
+        restaurante.adicionar(restaurante1);
+
 
 
 
