@@ -1,25 +1,25 @@
 package com.algaworks.algafood.domain.model;
 
 import lombok.Data;
+import org.hibernate.annotations.DynamicUpdate;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
 @Data
+@DynamicUpdate
 public class Restaurante {
 
 
     @Id
-    private int Id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long Id;
 
     @Column
     private String nome;
 
-    @Column(name="taxa_entrega")
+    @Column(name="taxa_entrega",updatable = false)
     private BigDecimal taxaEntrega;
 
 
