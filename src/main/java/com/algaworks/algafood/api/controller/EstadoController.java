@@ -10,13 +10,12 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/estados")
 public class EstadoController {
 
     @Autowired
     EstadoRepository estadoRepository;
 
-    @GetMapping
+    @GetMapping("/estados")
     public List<Estado> listar(){
         return estadoRepository.todos();
     }
