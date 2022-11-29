@@ -15,12 +15,19 @@ public class AlterarCozinhaMain {
 				.run(args);
 		CozinhaRepository cozinhaRepository = applicationContext.getBean(CozinhaRepository.class);
 
-		
+
+		// VIA CRIANDO OBJETO
+		/*
 		Cozinha cozinha = new Cozinha();
 		cozinha.setId(1L);
 		cozinha.setNome("Mexicana");
 		cozinhaRepository.adicionar(cozinha);
+		*/
 
+
+		Cozinha cozinha = cozinhaRepository.porId(1L);
+		cozinha.setNome("Mexicana");
+		cozinhaRepository.adicionar(cozinha);
 
 	}
 	
