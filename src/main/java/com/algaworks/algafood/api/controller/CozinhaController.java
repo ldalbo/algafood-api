@@ -23,9 +23,17 @@ public class CozinhaController {
     public List<Cozinha> listar(){
         return cozinhaRepository.todas();
     }
+    /* PRIMEIRA  FORMA EXPLICITANDO
     @GetMapping("/{cozinhaId}") //AQUI PODE SER QUALQUER NOME
     public Cozinha buscar(@PathVariable("cozinhaId") Long id){
         return  cozinhaRepository.porId(id);
+    }
+
+     */
+
+    @GetMapping("/{cozinhaId}") //AQUI PODE SER QUALQUER NOME
+    public Cozinha buscar(@PathVariable Long cozinhaId){
+        return  cozinhaRepository.porId(cozinhaId);
     }
 
 
