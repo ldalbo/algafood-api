@@ -18,8 +18,9 @@ public class CozinhaController {
     @Autowired
     CozinhaRepository cozinhaRepository;
 
-    @GetMapping(produces = MediaType.APPLICATION_XML_VALUE )
+     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE )
 
+    // @GetMapping("/cozinhas")
     public List<Cozinha> listar(){
         return cozinhaRepository.todas();
     }
