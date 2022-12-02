@@ -2,6 +2,7 @@ package com.algaworks.algafood.api.controller;
 
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,16 +37,10 @@ public class CozinhaController {
     }
     */
 
-    /* PRIMEIRA  FORMA EXPLICITANDO
-    @GetMapping("/{cozinhaId}") //AQUI PODE SER QUALQUER NOME
-    public Cozinha buscar(@PathVariable("cozinhaId") Long id){ // AQUI CASO COM O ATRIBUTO QUE VEM DE CIMA
-        return  cozinhaRepository.porId(id);
-    }
 
-     */
 
-   @GetMapping("{cozinhaId}") //AQUI PODE SER QUALQUER NOME
-    public ResponseEntity<Cozinha> buscar(@PathVariable Long cozinhaId){
+    @GetMapping("{id}") //AQUI PODE SER QUALQUER NOME
+    public ResponseEntity<Cozinha> buscar(@PathVariable("id") Long cozinhaId){ // explicito é dizer "Pegue do Mapping o "id"
         Cozinha cozinha =  cozinhaRepository.porId(cozinhaId);
         if (cozinha != null){
             // return ResponseEntity.status(HttpStatus.OK).body(cozinha);
@@ -54,19 +49,46 @@ public class CozinhaController {
         else{
             return  ResponseEntity.notFound().build();
         }
-
-
     }
+//
+//   @GetMapping("{cozinhaId}") //AQUI PODE SER QUALQUER NOME
+//    public ResponseEntity<Cozinha> buscar(@PathVariable Long cozinhaId){
+//        Cozinha cozinha =  cozinhaRepository.porId(cozinhaId);
+//        if (cozinha != null){
+//            // return ResponseEntity.status(HttpStatus.OK).body(cozinha);
+//            return  ResponseEntity.ok(cozinha);
+//        }
+//        else{
+//            return  ResponseEntity.notFound().build();
+//        }
+//    }
 
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.CREATED) // NÃO USO O  ResponseEntity.ok(cozinha); POIS FORÇO 0 201
     public Cozinha adicionar(@RequestBody Cozinha cozinha){
-        System.out.println("Cozinha postman " + cozinha.getNome());
-       return cozinhaRepository.adicionar(cozinha);
+       return  cozinhaRepository.adicionar(cozinha);
 
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Cozinha> atualizar(@PathVariable("id") Long cozinhaId, @RequestBody Cozinha cozinha){
+
+       // PEGO DO REPOSITORIO
+       Cozinha cozinhaAtual = cozinhaRepository.porId(cozinhaId);
+
+       // VEJO SE EXISTE
+       if (cozinhaAtual != null){
+           // Copio todos os atributos novos para o bean persistido
+           BeanUtils.copyProperties(cozinha,cozinhaAtual,"id");
+           // VOU PERSISTIR O NOVO BEAN
+           cozinhaAtual = cozinhaRepository.adicionar(cozinhaAtual);
+           // DESSA FORMA VOLTA STATUS 200 COM O BEAN
+           return ResponseEntity.ok(cozinhaAtual);
+       }
+       // NÃO ACHOU
+       return ResponseEntity.notFound().build();
+    }
 
 
 
