@@ -5,10 +5,7 @@ import com.algaworks.algafood.domain.repository.CozinhaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -50,15 +47,25 @@ public class CozinhaController {
    @GetMapping("{cozinhaId}") //AQUI PODE SER QUALQUER NOME
     public ResponseEntity<Cozinha> buscar(@PathVariable Long cozinhaId){
         Cozinha cozinha =  cozinhaRepository.porId(cozinhaId);
+        if (cozinha != null){
+            // return ResponseEntity.status(HttpStatus.OK).body(cozinha);
+            return  ResponseEntity.ok(cozinha);
+        }
+        else{
+            return  ResponseEntity.notFound().build();
+        }
 
-        // return ResponseEntity.status(HttpStatus.OK).body(cozinha);
-        return  ResponseEntity.ok(cozinha);
 
     }
 
 
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public Cozinha adicionar(@RequestBody Cozinha cozinha){
+        System.out.println("Cozinha postman " + cozinha.getNome());
+       return cozinhaRepository.adicionar(cozinha);
 
-
+    }
 
 
 

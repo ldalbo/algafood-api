@@ -31,6 +31,7 @@ public class CozinhaRepositoryImpl implements CozinhaRepository {
     @Transactional
     @Override
     public Cozinha adicionar(Cozinha cozinha){
+        System.out.println("Nome " + cozinha.getNome());
         return manager.merge(cozinha);
     }
 
