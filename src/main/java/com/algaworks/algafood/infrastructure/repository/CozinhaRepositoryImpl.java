@@ -1,5 +1,6 @@
 package com.algaworks.algafood.infrastructure.repository;
 
+import com.algaworks.algafood.domain.model.Cidade;
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
 import org.springframework.stereotype.Component;
@@ -37,18 +38,13 @@ public class CozinhaRepositoryImpl implements CozinhaRepository {
 
 
 
-    @Transactional
     @Override
-    public void  remover(Cozinha cozinha){
-
-        cozinha = porId(cozinha.getId());
-
-        manager.remove(cozinha);
-
-
-
+    @Transactional
+    public void remover(Cozinha cozinha) {
+        manager.remove(porId(cozinha.getId() ));
 
     }
+
 
 
 }

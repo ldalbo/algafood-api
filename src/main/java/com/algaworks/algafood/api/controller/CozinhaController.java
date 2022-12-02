@@ -71,7 +71,7 @@ public class CozinhaController {
 
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("{id}") // PARA PUT pode ser os 2 "/{id}  ou "{id}"
     public ResponseEntity<Cozinha> atualizar(@PathVariable("id") Long cozinhaId, @RequestBody Cozinha cozinha){
 
        // PEGO DO REPOSITORIO
@@ -89,6 +89,27 @@ public class CozinhaController {
        // NÃO ACHOU
        return ResponseEntity.notFound().build();
     }
+
+     @DeleteMapping("{id}")
+     public ResponseEntity<Cozinha>remove(@PathVariable("id") Long cozinhaId){
+        Cozinha cozinha = cozinhaRepository.porId(cozinhaId);
+        try{
+            if (cozinha != null){
+
+                cozinhaRepository.remover(cozinha);
+                return ResponseEntity.noContent().build();
+            }
+            else{
+                return ResponseEntity.notFound().build();
+            }
+        }
+        catch (Exception e){
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+
+        }
+
+
+     }
 
 
 
