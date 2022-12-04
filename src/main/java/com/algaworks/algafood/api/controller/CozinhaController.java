@@ -88,7 +88,7 @@ public class CozinhaController {
            // Copio todos os atributos novos para o bean persistido
            BeanUtils.copyProperties(cozinha,cozinhaAtual,"id");
            // VOU PERSISTIR O NOVO BEAN
-           cozinhaAtual = cozinhaRepository.adicionar(cozinhaAtual);
+           cozinhaAtual = cadastroCozinha.salvar(cozinhaAtual);
            // DESSA FORMA VOLTA STATUS 200 COM O BEAN
            return ResponseEntity.ok(cozinhaAtual);
        }
