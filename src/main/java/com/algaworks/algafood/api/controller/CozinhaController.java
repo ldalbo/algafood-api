@@ -2,6 +2,7 @@ package com.algaworks.algafood.api.controller;
 
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
+import com.algaworks.algafood.domain.service.CadastroCozinhaService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,9 @@ public class CozinhaController {
 
     @Autowired
     CozinhaRepository cozinhaRepository;
+
+    @Autowired
+    CadastroCozinhaService cadastroCozinha;
 
     // ACRESCENTA NO FINAL DA PRINCIPAL, NESSE CASO NADA
 
@@ -67,7 +71,7 @@ public class CozinhaController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED) // NÃO USO O  ResponseEntity.ok(cozinha); POIS FORÇO 0 201
     public Cozinha adicionar(@RequestBody Cozinha cozinha){
-       return  cozinhaRepository.adicionar(cozinha);
+       return cadastroCozinha.salvar(cozinha);
 
     }
 
