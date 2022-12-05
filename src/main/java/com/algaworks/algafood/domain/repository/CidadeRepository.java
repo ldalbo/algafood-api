@@ -7,7 +7,7 @@ import java.util.List;
 public interface CidadeRepository {
     Cidade porId(Long Id);
     Cidade adicionar(Cidade cidade);
-    void remover(Cidade cidade);
+    void remover(L);
     List<Cidade> todos();
 
 }

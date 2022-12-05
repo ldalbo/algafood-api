@@ -44,13 +44,37 @@ public class RestauranteController {
             restaurante = cadastroRestaurante.salvar(restaurante);
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(restaurante);
-
         }
         catch (EntidadeNaoEncontradaException e){
             return  ResponseEntity.badRequest()
                     .body(e.getMessage());
         }
 
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<?> atualizar(@PathVariable("id") Long restauranteId,@RequestBody Restaurante restaurante){
+        try{
+            Restaurante restauranteAtual = restauranteRepository.porId(restauranteId);
+            if (restauranteAtual == null){
+                return ResponseEntity.notFound().build();
+
+            }
+
+            restauranteAtual.setNome(restaurante.getNome());
+            restauranteAtual.setId(restauranteId);
+            restauranteAtual.setTaxaEntrega(restaurante.getTaxaEntrega());
+            restauranteAtual.setCozinha(restaurante.getCozinha());
+
+
+            restaurante = cadastroRestaurante.salvar(restauranteAtual);
+            return ResponseEntity.ok(restaurante);
+
+        }
+        catch (EntidadeNaoEncontradaException e){
+            return  ResponseEntity.badRequest()
+                    .body(e.getMessage());
+        }
     }
 
 
