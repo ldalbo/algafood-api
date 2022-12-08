@@ -34,10 +34,9 @@ public class EstadoRepositoryImpl implements EstadoRepository {
 
     @Override
     @Transactional
-    public void remover(Estado estado) {
+    public void remover(Long Id) {
         Estado estado1 = new Estado();
-        estado1.setId(estado.getId());
-        estado1 = porId(estado1.getId());
+        estado1 = porId(Id);
 
         manager.remove(estado1);
 

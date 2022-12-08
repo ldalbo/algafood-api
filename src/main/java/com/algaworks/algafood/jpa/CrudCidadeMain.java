@@ -23,8 +23,10 @@ public class CrudCidadeMain {
         EstadoRepository estadoRepository = applicationContext.getBean(EstadoRepository.class);
 
 
+        cidadeRepository.remover(13L);
 
 
+/*
         // RECUPERANDO RS e CRIANDO FLORES DA CUNHA
         Estado estadoRS = estadoRepository.porId(1L);
         Cidade cidadeFlores = new Cidade();
@@ -48,11 +50,12 @@ public class CrudCidadeMain {
 
         // GRAVO A ATUALZIAÇÃO
         cidadeRepository.adicionar(cidadeAtualizada);
+*/
 
 
         // REMOVO RECIFE E PERNAMBUCO
-        cidadeRepository.remover(cidadeRepository.porId(2L));
-        estadoRepository.remover(estadoRepository.porId(2L));
+      //  cidadeRepository.remover(2L);
+      //  estadoRepository.remover(2L);
 
 
         // NA LISTAGEM VAI SOBRAR CURITIBA e CAXIAS DO SUL

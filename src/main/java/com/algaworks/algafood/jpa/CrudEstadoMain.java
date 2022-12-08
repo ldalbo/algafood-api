@@ -30,7 +30,7 @@ public class CrudEstadoMain {
         estadoAL.setNome("Alagoas");
         estadoRepository.adicionar(estadoAL);
 
-        estadoRepository.remover(estadoAL);
+        // estadoRepository.remover(estadoAL.getId());
 
         List<Estado> todosEstados = estadoRepository.todos();
         for (Estado estado : todosEstados){
