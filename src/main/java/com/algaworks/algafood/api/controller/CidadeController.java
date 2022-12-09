@@ -8,12 +8,14 @@ import com.algaworks.algafood.domain.repository.CidadeRepository;
 import com.algaworks.algafood.domain.repository.EstadoRepository;
 import com.algaworks.algafood.domain.service.CadastroCidadeService;
 import com.algaworks.algafood.domain.service.CadastroCozinhaService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/cidades")
@@ -33,52 +35,62 @@ public class CidadeController {
 
     @GetMapping
     public List<Cidade> listar(){
-        return cidadeRepository.todos();
+        return cidadeRepository.findAll();
     }
 
     @GetMapping("{id}")
     public ResponseEntity<Cidade> buscar(@PathVariable("id") Long Id){
-        Cidade cidade = cidadeRepository.porId(Id);
-        if (cidade == null){
+        Optional<Cidade> cidade = cidadeRepository.findById(Id);
+        if (!cidade.isPresent()){
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(cidade);
+        return ResponseEntity.ok(cidade.get());
 
     }
 
     @PostMapping
     public ResponseEntity<Cidade> adicionar(@RequestBody Cidade cidade){
         // Preciso ver se esse estado que vem do json está persistido
-        Long estadoId = cidade.getEstado().getId();
-        Estado estadoSalvo = estadoRepository.porId(estadoId);
-
-        if (estadoSalvo == null){
-           return ResponseEntity.badRequest().build();
+        Optional<Estado> estadoAtual = estadoRepository.findById(cidade.getEstado().getId());
+        if (!estadoAtual.isPresent()){
+            return ResponseEntity.badRequest().build();
         }
-        cidade.setEstado(estadoSalvo);
+
+        cidade.setEstado(estadoAtual.get());
         return ResponseEntity.ok(cadastroCidade.adicionar(cidade));
     }
 
-    @PutMapping("{id}")
+   @PutMapping("{id}")
     public ResponseEntity<Cidade> atualizar(@PathVariable("id") Long id,@RequestBody Cidade cidade){
 
         Long estadoId = cidade.getEstado().getId();
-        Estado estadoSalvo = estadoRepository.porId(estadoId);
+        Optional<Estado> estadoSalvo = estadoRepository.findById(estadoId);
 
-        if (estadoSalvo == null){
+        if (estadoSalvo.isEmpty()){
             return ResponseEntity.badRequest().build();
         }
-        Cidade cidadeAtual = cidadeRepository.porId(id);
-        cidadeAtual.setEstado(estadoSalvo);
-        cidadeAtual.setNome(cidade.getNome());
+        Optional<Cidade> cidadeAtual = cidadeRepository.findById(id);
+        if (cidadeAtual.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+
+
+        BeanUtils.copyProperties(cidade,cidadeAtual.get(),"id");
+        // PRECISO PEGAR O QUE É PERSISITIDO
+        cidade.setEstado(estadoSalvo.get());
+
+
         return ResponseEntity.ok(cadastroCidade.adicionar(cidade));
 
     }
+
+
+
+
 
     @DeleteMapping("{id}")
     public ResponseEntity<?> apagar(@PathVariable("id") Long Id) {
         try {
-            System.out.println("Controller " + Id);
             cadastroCidade.excluir(Id);
             return ResponseEntity.noContent().build();
         }

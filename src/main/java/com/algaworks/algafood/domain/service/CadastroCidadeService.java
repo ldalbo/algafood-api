@@ -21,13 +21,12 @@ public class CadastroCidadeService {
     EstadoRepository estadoRepository;
 
    public Cidade adicionar(Cidade cidade){
-        return cidadeRepository.adicionar(cidade);
+        return cidadeRepository.save(cidade);
     }
 
     public void excluir(Long cidadeId){
        try{
-           System.out.println("Service chamando Repository " + cidadeId);
-           estadoRepository.remover(cidadeId);
+           cidadeRepository.deleteById(cidadeId);
        }
        catch (EmptyResultDataAccessException e){
            throw new EntidadeNaoEncontradaException("Cidade não encontrada " +   cidadeId);

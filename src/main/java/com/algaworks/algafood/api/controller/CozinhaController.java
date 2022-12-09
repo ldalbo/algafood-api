@@ -31,9 +31,6 @@ public class CozinhaController {
     @GetMapping
     public ResponseEntity<List<Cozinha>> listar(){
        List<Cozinha> cozinhas =  cozinhaRepository.findAll();
-       for(Cozinha coz : cozinhas){
-           System.out.println(coz.getNome());
-       }
        return ResponseEntity.ok(cozinhas);
    }
 
@@ -55,9 +52,9 @@ public class CozinhaController {
             // return ResponseEntity.status(HttpStatus.OK).body(cozinha);
             return  ResponseEntity.ok(cozinha.get());
         }
-        else{
-            return  ResponseEntity.notFound().build();
-        }
+
+        return  ResponseEntity.notFound().build();
+
     }
 //
 //   @GetMapping("{cozinhaId}") //AQUI PODE SER QUALQUER NOME
@@ -74,10 +71,9 @@ public class CozinhaController {
 
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED) // NÃO USO O  ResponseEntity.ok(cozinha); POIS FORÇO 0 201
+    @ResponseStatus(HttpStatus.CREATED)
     public Cozinha adicionar(@RequestBody Cozinha cozinha){
        return cadastroCozinha.salvar(cozinha);
-
     }
 
     @PutMapping("{id}") // PARA PUT pode ser os 2 "/{id}  ou "{id}"

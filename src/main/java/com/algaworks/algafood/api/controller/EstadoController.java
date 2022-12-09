@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/estados")
@@ -28,18 +29,17 @@ public class EstadoController {
 
     @GetMapping
     public ResponseEntity<List<Estado>> listar(){
-        List<Estado> estados =  estadoRepository.todos();
+        List<Estado> estados =  estadoRepository.findAll();
         return ResponseEntity.ok(estados);
     }
 
     @GetMapping("{id}")
     public ResponseEntity buscar(@PathVariable("id") Long Id){
-        Estado estado = estadoRepository.porId(Id);
-        if (estado == null){
-            return ResponseEntity.notFound().build();
-
+        Optional<Estado> estado = estadoRepository.findById(Id);
+        if (!estado.isEmpty()){
+            return ResponseEntity.ok(estado.get());
         }
-        return ResponseEntity.ok(estado);
+        return ResponseEntity.notFound().build();
     }
 
     @PostMapping
@@ -66,17 +66,17 @@ public class EstadoController {
 
     @PutMapping("{id}")
     public ResponseEntity<?> atualizar(@PathVariable("id") Long estadoId, @RequestBody Estado estado){
-        Estado estadoAtual = estadoRepository.porId(estadoId);
-        if (estadoAtual == null){
+        Optional<Estado> estadoAtual = estadoRepository.findById(estadoId);
+        if (estadoAtual.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Estado " + estadoId +  " não encontrado");
 
         }
         // ATRIBUTO JSON A SER IGNORADO
-        BeanUtils.copyProperties(estado,estadoAtual,"id");
+        BeanUtils.copyProperties(estado,estadoAtual.get(),"id");
         // OU
         // estadoAtual.setNome(estado.getNome());
-        estadoAtual = cadastroEstado.salvar(estadoAtual);
-        return ResponseEntity.ok(estadoAtual);
+        Estado estadoSalvar = cadastroEstado.salvar(estadoAtual.get());
+        return ResponseEntity.ok(estadoSalvar);
     }
 
 
