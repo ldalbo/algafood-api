@@ -22,7 +22,7 @@ public class TesteController {
     @GetMapping("/cozinhas/por-nome")
     public List<Cozinha>  listarPorNome(@RequestParam("nome") String nome){
         System.out.println("Controller");
-        return cozinhaRepository.consultaPorNome(nome);
+        return cozinhaRepository.findAll();
 
     }
 

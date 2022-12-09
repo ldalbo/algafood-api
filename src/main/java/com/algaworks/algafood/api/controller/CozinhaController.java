@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+import java.util.Optional;
 
 
 @RestController
@@ -30,7 +30,10 @@ public class CozinhaController {
 
     @GetMapping
     public ResponseEntity<List<Cozinha>> listar(){
-       List<Cozinha> cozinhas =  cozinhaRepository.todas();
+       List<Cozinha> cozinhas =  cozinhaRepository.findAll();
+       for(Cozinha coz : cozinhas){
+           System.out.println(coz.getNome());
+       }
        return ResponseEntity.ok(cozinhas);
    }
 
@@ -47,10 +50,10 @@ public class CozinhaController {
 
     @GetMapping("{id}") //AQUI PODE SER QUALQUER NOME
     public ResponseEntity<Cozinha> buscar(@PathVariable("id") Long cozinhaId){ // explicito é dizer "Pegue do Mapping o "id"
-        Cozinha cozinha =  cozinhaRepository.porId(cozinhaId);
-        if (cozinha != null){
+        Optional<Cozinha> cozinha =  cozinhaRepository.findById(cozinhaId);
+        if (cozinha.isPresent()){
             // return ResponseEntity.status(HttpStatus.OK).body(cozinha);
-            return  ResponseEntity.ok(cozinha);
+            return  ResponseEntity.ok(cozinha.get());
         }
         else{
             return  ResponseEntity.notFound().build();
@@ -81,16 +84,16 @@ public class CozinhaController {
     public ResponseEntity<Cozinha> atualizar(@PathVariable("id") Long cozinhaId, @RequestBody Cozinha cozinha){
 
        // PEGO DO REPOSITORIO
-       Cozinha cozinhaAtual = cozinhaRepository.porId(cozinhaId);
+       Optional<Cozinha> cozinhaAtual = cozinhaRepository.findById(cozinhaId);
 
        // VEJO SE EXISTE
-       if (cozinhaAtual != null){
+       if (cozinhaAtual.isPresent()){
            // Copio todos os atributos novos para o bean persistido
-           BeanUtils.copyProperties(cozinha,cozinhaAtual,"id");
+           BeanUtils.copyProperties(cozinha,cozinhaAtual.get(),"id");
            // VOU PERSISTIR O NOVO BEAN
-           cozinhaAtual = cadastroCozinha.salvar(cozinhaAtual);
+           Cozinha cozinhaNova = cadastroCozinha.salvar(cozinhaAtual.get());
            // DESSA FORMA VOLTA STATUS 200 COM O BEAN
-           return ResponseEntity.ok(cozinhaAtual);
+           return ResponseEntity.ok(cozinhaAtual.get());
        }
        // NÃO ACHOU
        return ResponseEntity.notFound().build();
