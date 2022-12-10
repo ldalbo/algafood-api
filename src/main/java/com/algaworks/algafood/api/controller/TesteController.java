@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -40,5 +41,11 @@ public class TesteController {
         return restauranteRepository.buscaPorNomeCozinha(nome,cozinhaId);
     }
 
+    @GetMapping("/restaurantes/por-nome-taxa")
+    public List<Restaurante> porNomeTaxa(@RequestParam("nome") String nome
+            , @RequestParam("taxaInicial") BigDecimal taxaInicial
+            , @RequestParam("taxaFinal") BigDecimal taxaFinal){
+        return restauranteRepository.find(nome,taxaInicial,taxaFinal);
+    }
 
 }
