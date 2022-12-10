@@ -5,12 +5,14 @@ import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
 import com.algaworks.algafood.domain.service.CadastroRestauranteService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/restaurantes")  // NIVEL DE CLASSE
@@ -24,17 +26,17 @@ public class RestauranteController {
 
     @GetMapping
     public ResponseEntity <List<Restaurante>> listar(){
-       List<Restaurante> restaurantes = restauranteRepository.todos();
+       List<Restaurante> restaurantes = restauranteRepository.findAll();
        return ResponseEntity.ok(restaurantes);
     }
 
     @GetMapping("{id}")
     public ResponseEntity <Restaurante> buscar(@PathVariable("id") Long RestauranteId){
-        Restaurante restaurante = restauranteRepository.porId(RestauranteId);
-        if (restaurante == null){
+        Optional<Restaurante> restaurante = restauranteRepository.findById(RestauranteId);
+        if (restaurante.isEmpty()){
             return  ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(restaurante);
+        return ResponseEntity.ok(restaurante.get());
 
     }
 
@@ -52,24 +54,11 @@ public class RestauranteController {
 
     }
 
-    @PutMapping("{id}")
-    public ResponseEntity<?> atualizar(@PathVariable("id") Long restauranteId,@RequestBody Restaurante restaurante){
+    @DeleteMapping("{id}")
+    public ResponseEntity<?> atualizar(@PathVariable("id") Long restauranteId){
         try{
-            Restaurante restauranteAtual = restauranteRepository.porId(restauranteId);
-            if (restauranteAtual == null){
-                return ResponseEntity.notFound().build();
-
-            }
-
-            restauranteAtual.setNome(restaurante.getNome());
-            restauranteAtual.setId(restauranteId);
-            restauranteAtual.setTaxaEntrega(restaurante.getTaxaEntrega());
-            restauranteAtual.setCozinha(restaurante.getCozinha());
-
-
-            restaurante = cadastroRestaurante.salvar(restauranteAtual);
-            return ResponseEntity.ok(restaurante);
-
+            cadastroRestaurante.exluir(restauranteId);
+            return ResponseEntity.noContent().build();
         }
         catch (EntidadeNaoEncontradaException e){
             return  ResponseEntity.badRequest()

@@ -1,7 +1,9 @@
 package com.algaworks.algafood.api.controller;
 
 import com.algaworks.algafood.domain.model.Cozinha;
+import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
+import com.algaworks.algafood.domain.repository.RestauranteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,20 +20,25 @@ public class TesteController {
     @Autowired
     CozinhaRepository cozinhaRepository;
 
+    @Autowired
+    RestauranteRepository restauranteRepository;
+
     // INDO POR NOMES IGUAIS
     @GetMapping("/cozinhas/por-nome")
     public List<Cozinha>  listarPorNome(@RequestParam("nome") String nome){
-        System.out.println("Controller");
-        return cozinhaRepository.findAll();
-
+        return cozinhaRepository.queryByNomeContaining(nome);
     }
 
 
-/*   EXPLICITANDO OS PARAMETROS
-     @GetMapping("/cozinhas/por-nome")
-    public List<Cozinha>  listarPorNome(@RequestParam("nome") String nomeRestaurante){
-        System.out.println("Controller");
-        return cozinhaRepository.consultaPorNome(nomeRestaurante);
+    @GetMapping("/restaurantes/por-nome")
+    public List<Restaurante> porNome(@RequestParam("nome") String nome){
+        return restauranteRepository.buscaPorNome(nome);
+    }
 
-    }*/
+    @GetMapping("/restaurantes/por-nome-cozinha")
+    public List<Restaurante> porNomeCozinha(@RequestParam("nome") String nome, @RequestParam("cozinha") Long cozinhaId){
+        return restauranteRepository.buscaPorNomeCozinha(nome,cozinhaId);
+    }
+
+
 }
