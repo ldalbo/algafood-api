@@ -20,7 +20,7 @@ public class Restaurante {
     private String nome;
 
     @Column(name="taxa_entrega",updatable = false)
-    private BigDecimal taxaEntrega;
+    private BigDecimal taxaFrete;
 
     // MUITOS RESTAURANTES, PODEM APONTAR PARA
     // UMA COZINHA
