@@ -3,6 +3,7 @@ package com.algaworks.algafood.api.controller;
 import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.model.Restaurante;
+import com.algaworks.algafood.domain.repository.CozinhaRepository;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
 import com.algaworks.algafood.domain.service.CadastroRestauranteService;
 import org.springframework.beans.BeanUtils;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +25,9 @@ public class RestauranteController {
 
     @Autowired
     CadastroRestauranteService cadastroRestaurante;
+
+    @Autowired
+    CozinhaRepository cozinhaRepository;
 
     @GetMapping
     public ResponseEntity <List<Restaurante>> listar(){
@@ -54,8 +59,10 @@ public class RestauranteController {
 
     }
 
+
+
     @DeleteMapping("{id}")
-    public ResponseEntity<?> atualizar(@PathVariable("id") Long restauranteId){
+    public ResponseEntity<?> remover(@PathVariable("id") Long restauranteId){
         try{
             cadastroRestaurante.exluir(restauranteId);
             return ResponseEntity.noContent().build();
@@ -66,9 +73,38 @@ public class RestauranteController {
         }
     }
 
+    @PutMapping("{id}")
+    public ResponseEntity<Restaurante> atualizar(@PathVariable("id") Long Id,@RequestBody Restaurante restaurante){
+
+        // TEMOS A NOVA COZINHA
+        Long cozinhaId = restaurante.getCozinha().getId();
+
+        // VER SE ESSA COZINHA EXISTE
+        Optional<Cozinha> cozinhaSalva = cozinhaRepository.findById(cozinhaId);
+
+        if (cozinhaSalva.isEmpty()){
+            return ResponseEntity.badRequest().build();
+        }
+
+        Optional<Restaurante> restauranteAtual = restauranteRepository.findById(Id);
+        if (restauranteAtual.isPresent()){
+            System.out.println(restaurante);
+
+            // BeanUtils.copyProperties(restaurante,restauranteAtual.get(),"id");
+            restauranteAtual.get().setTaxaFrete(restaurante.getTaxaFrete());
+            restauranteAtual.get().setNome(restaurante.getNome());
+            System.out.println(restauranteAtual.get());
+            Restaurante restauranteNovo = cadastroRestaurante.salvar(restauranteAtual.get());
+            return ResponseEntity.ok(restauranteAtual.get());
+
+        }
+
+        return ResponseEntity.notFound().build();
 
 
-
+    }
 
 
 }
+
+
