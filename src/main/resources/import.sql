@@ -24,3 +24,19 @@ insert into forma_pagamento (id, descricao) values (3, 'Dinheiro');
 insert into restaurante_forma_pagamento (restaurante_id, forma_pagamento_id) values (1, 1), (1, 2), (1, 3), (2, 3), (3, 2), (3, 3);
 
 INSERT INTO `algafood`.`produto` (`id`, `ativo`, `descricao`, `nome`, `preco`, `restaurante_id`) VALUES ('1', 1, 'Pizza', 'Pizza', '50', 1)
+
+INSERT INTO `algafood`.`grupo` (`id`, `nome`) VALUES (1, 'ADMIN GERAL');
+INSERT INTO `algafood`.`grupo` (`id`, `nome`) VALUES (2, 'FUNCIONARIO');
+
+insert into permissao (id, nome, descricao) values (1, 'CONSULTAR_COZINHAS', 'Permite consultar cozinhas');
+insert into permissao (id, nome, descricao) values (2, 'EDITAR_COZINHAS', 'Permite editar cozinhas');
+
+INSERT INTO algafood.usuario(id,data_cadastro, email, nome, senha ) VALUES (1,NOW(),'ldalbo@gmail.com','Leandro', '1234');
+
+INSERT INTO restaurante_usuario (restaurante_id, usuario_id) VALUES (1,1);
+
+INSERT INTO usuario_grupo (usuario_id,grupo_id) VALUES (1,1);
+
+
+INSERT INTO grupo_permissao (grupo_id,permissao_id) VALUES (1,1),(1,2);
+

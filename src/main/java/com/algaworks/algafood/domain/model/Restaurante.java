@@ -62,7 +62,13 @@ public class Restaurante {
     private List<FormaPagamento> formaPagamento = new ArrayList<>();
 
 
-
+    //   @JsonIgnore
+    @ManyToMany
+    @JoinTable (name="restaurante_usuario",
+            joinColumns = @JoinColumn(name="restaurante_id"),
+            inverseJoinColumns = @JoinColumn(name="usuario_id")
+    )
+    List<Usuario> usuarios = new ArrayList<>();
 
 
 }
