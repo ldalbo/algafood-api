@@ -22,3 +22,5 @@ insert into forma_pagamento (id, descricao) values (3, 'Dinheiro');
 
 
 insert into restaurante_forma_pagamento (restaurante_id, forma_pagamento_id) values (1, 1), (1, 2), (1, 3), (2, 3), (3, 2), (3, 3);
+
+INSERT INTO `algafood`.`produto` (`id`, `ativo`, `descricao`, `nome`, `preco`, `restaurante_id`) VALUES ('1', 1, 'Pizza', 'Pizza', '50', 1)
