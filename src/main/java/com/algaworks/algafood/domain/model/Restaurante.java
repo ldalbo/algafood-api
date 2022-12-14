@@ -35,7 +35,7 @@ public class Restaurante {
     // MUITOS RESTAURANTES, PODEM APONTAR PARA
     // UMA COZINHA
 
-
+    @JsonIgnore
     @ManyToOne
     // DIGO O NOME DA COLUNA QUE DEVE SER CRIADA
     @JoinColumn(name="cozinha_id")
