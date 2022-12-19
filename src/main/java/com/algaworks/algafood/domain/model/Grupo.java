@@ -23,10 +23,11 @@ public class Grupo {
     private String nome;
 
     @ManyToMany
-    @JoinTable(name="grupo_permissao",
-            joinColumns =@JoinColumn (name="grupo_id"),
-            inverseJoinColumns = @JoinColumn(name="permissao_id"))
+    @JoinTable(name="grupo_permissao", // NOME TABELA NOVA
+            joinColumns =@JoinColumn (name="grupo_id"), // ID PARA O PROPRIO OBJETO
+            inverseJoinColumns = @JoinColumn(name="permissao_id")) // ID DA OUTRA TABELA
 
+    // É A OUTRA TABLEA DE ASSOCIAÇÃO
     private List<Permissao> permissoes = new ArrayList<>();
 
 

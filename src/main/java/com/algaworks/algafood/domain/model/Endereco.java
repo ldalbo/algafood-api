@@ -1,5 +1,6 @@
 package com.algaworks.algafood.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -26,6 +27,7 @@ public class Endereco {
     @Column(name = "endereco_bairro")
     private String bairro;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name="endereco_cidade_id")
     private Cidade cidade;

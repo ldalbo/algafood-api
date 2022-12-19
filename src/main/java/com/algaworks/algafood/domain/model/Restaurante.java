@@ -1,6 +1,7 @@
 package com.algaworks.algafood.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
@@ -29,32 +30,35 @@ public class Restaurante {
 
 
 
-    @Column(name="taxa_frete")
+    @Column(name="taxa_frete", nullable = false)
     private BigDecimal taxaFrete;
 
     // MUITOS RESTAURANTES, PODEM APONTAR PARA
-    // UMA COZINHA
-
-    @JsonIgnore
-    @ManyToOne
+    // A MESMA  COZINHA
+    // NO TESTE FEITO, TEMOS 3 RESTAURANTES, APONTANDO PARA 3
+    // COZINAHS
+    //  @JsonIgnore
+    @JsonIgnoreProperties("hibernateLazyInitializer")
+    @ManyToOne (fetch = FetchType.LAZY)
     // DIGO O NOME DA COLUNA QUE DEVE SER CRIADA
-    @JoinColumn(name="cozinha_id")
+    @JoinColumn(name="cozinha_id",nullable = false)
     private Cozinha cozinha;
 
+    @JsonIgnore
     @Embedded
     private Endereco endereco;
 
-    // @JsonIgnore
+    @JsonIgnore
     @CreationTimestamp
     @Column(nullable = false, columnDefinition = "datetime")
     private LocalDateTime dataCadastro;
 
-    // @JsonIgnore
+    @JsonIgnore
     @UpdateTimestamp
     @Column(nullable = false, columnDefinition = "datetime")
     private LocalDateTime dataAtualizacao;
 
-
+    // @JsonIgnore
     @ManyToMany
     @JoinTable(name = "restaurante_forma_pagamento",
             joinColumns = @JoinColumn(name ="restaurante_id"),
@@ -62,7 +66,7 @@ public class Restaurante {
     private List<FormaPagamento> formaPagamento = new ArrayList<>();
 
 
-    //   @JsonIgnore
+    @JsonIgnore
     @ManyToMany
     @JoinTable (name="restaurante_usuario",
             joinColumns = @JoinColumn(name="restaurante_id"),
