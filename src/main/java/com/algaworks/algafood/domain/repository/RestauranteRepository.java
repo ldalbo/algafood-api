@@ -12,6 +12,10 @@ import java.util.List;
 
 public interface RestauranteRepository extends CustomJpaRepository<Restaurante, Long>,RestauranteRepositoryQueries, JpaSpecificationExecutor<Restaurante> {
 
+    // Coloco o left onde não é obrigatorio
+    @Query("from Restaurante r join fetch r.cozinha left join fetch r.formaPagamento")
+    List<Restaurante> findAll();
+
     @Query("from Restaurante where nome like %:nome% ")
     List<Restaurante> buscaPorNome(String nome);
 

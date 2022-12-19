@@ -37,8 +37,8 @@ public class Restaurante {
     // A MESMA  COZINHA
     // NO TESTE FEITO, TEMOS 3 RESTAURANTES, APONTANDO PARA 3
     // COZINAHS
-    //  @JsonIgnore
-    @JsonIgnoreProperties("hibernateLazyInitializer")
+    @JsonIgnore
+    /// @JsonIgnoreProperties("hibernateLazyInitializer")
     @ManyToOne (fetch = FetchType.LAZY)
     // DIGO O NOME DA COLUNA QUE DEVE SER CRIADA
     @JoinColumn(name="cozinha_id",nullable = false)
