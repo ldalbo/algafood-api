@@ -22,7 +22,7 @@ public class Cozinha {
     private String nome;
 
 
-    @JsonIgnore
+    // @JsonIgnore
     @OneToMany(mappedBy = "cozinha")
     private List<Restaurante> restaurante = new ArrayList<>();
 
