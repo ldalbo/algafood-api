@@ -20,7 +20,7 @@ public class CadastroCidadeService {
     @Autowired
     EstadoRepository estadoRepository;
 
-   public Cidade adicionar(Cidade cidade){
+   public Cidade salvar(Cidade cidade){
         return cidadeRepository.save(cidade);
     }
 
@@ -31,8 +31,6 @@ public class CadastroCidadeService {
        catch (EmptyResultDataAccessException e){
            throw new EntidadeNaoEncontradaException("Cidade não encontrada " +   cidadeId);
        }
-
-
     }
 
 

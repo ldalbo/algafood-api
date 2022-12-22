@@ -23,6 +23,7 @@ public class ItemPedido {
 
     private String observacao;
 
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="pedido_id",nullable = false)
     private Pedido pedido;

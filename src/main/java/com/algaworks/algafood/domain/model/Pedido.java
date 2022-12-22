@@ -8,6 +8,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -60,5 +62,8 @@ public class Pedido {
     @Column( columnDefinition = "datetime")
     private LocalDateTime dataEntrega;
 
+
+   // @OneToMany(mappedBy = "pedido")
+   // private List<ItemPedido> itemPedido = new ArrayList<>();
 
 }
