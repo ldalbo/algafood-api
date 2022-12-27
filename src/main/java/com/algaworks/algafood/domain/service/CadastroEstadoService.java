@@ -15,6 +15,8 @@ import java.util.Optional;
 
 @Service
 public class CadastroEstadoService {
+    private static final String MSG_ESTADO_NAO_ENCONTRADO = "Estado %d não foi encontrado";
+    private static final String MSG_ESTADO_EM_USO = "O Estado %s está em uso";
 
     @Autowired
     EstadoRepository estadoRepository;
@@ -23,21 +25,27 @@ public class CadastroEstadoService {
         return estadoRepository.save(estado);
     }
 
-
-
-    public void excluir(Long estadoId){
+    public void excluir(Long id){
         try{
-            Optional<Estado> estado = estadoRepository.findById(estadoId);
-            if (estado.isEmpty()){
-                throw new EntidadeNaoEncontradaException("Estado não encontrado " + estadoId);
-            }
-            estadoRepository.deleteById(estadoId);
-
+            estadoRepository.deleteById(id);
         }
+
+        catch (EmptyResultDataAccessException e){
+            throw new EntidadeNaoEncontradaException(String.format(MSG_ESTADO_NAO_ENCONTRADO,id));
+        }
+
         catch (DataIntegrityViolationException e){
-            throw new EntidadeEmUsoException("Entidade Estado " + estadoId + " está em uso " );
+            throw new EntidadeEmUsoException(String.format(MSG_ESTADO_EM_USO,id));
         }
     }
+
+    public Estado buscarOuFalhar(Long id){
+        return estadoRepository.findById(id)
+                .orElseThrow(()->new EntidadeNaoEncontradaException(
+                        String.format(MSG_ESTADO_NAO_ENCONTRADO,id)));
+
+    }
+
 
 
 

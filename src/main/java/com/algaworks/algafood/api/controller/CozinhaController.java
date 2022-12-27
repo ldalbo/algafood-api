@@ -9,7 +9,6 @@ import org.apache.catalina.filters.ExpiresFilter;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,28 +21,18 @@ import java.util.Optional;
 public class CozinhaController {
 
     @Autowired
-    CozinhaRepository cozinhaRepository;
+    private CozinhaRepository cozinhaRepository;
 
     @Autowired
-    CadastroCozinhaService cadastroCozinha;
+    private CadastroCozinhaService cadastroCozinha;
 
     // ACRESCENTA NO FINAL DA PRINCIPAL, NESSE CASO NADA
 
     @GetMapping
-    public ResponseEntity<List<Cozinha>> listar(){
-       List<Cozinha> cozinhas =  cozinhaRepository.findAll();
-       return ResponseEntity.ok(cozinhas);
+    public List<Cozinha> listar(){
+       return  cozinhaRepository.findAll();
+
    }
-
-    /*
-    @GetMapping
-    public ResponseEntity<String> teste(){
-
-        String a = "23";
-        return ResponseEntity.ok(a);
-    }
-    */
-
 
 
     @GetMapping("{id}") //AQUI PODE SER QUALQUER NOME

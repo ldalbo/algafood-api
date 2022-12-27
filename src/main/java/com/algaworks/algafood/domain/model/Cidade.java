@@ -17,7 +17,8 @@ public class Cidade {
     @Column(name="nome")
     private String nome;
 
-    @JsonIgnore
+    // SE NÃO FAÇO VOLTAR, O BEAN FICA NULO, ENTÃO DEVEMOS CUIDAR
+    // @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "estado_id")
     private Estado estado;

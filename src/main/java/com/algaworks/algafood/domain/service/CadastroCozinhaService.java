@@ -7,16 +7,15 @@ import com.algaworks.algafood.domain.repository.CozinhaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CadastroCozinhaService {
 
-    public static final String MSG_COZINHA_NAO_ENCONTRADA = "Entidade cozinha %d não encontrada";
-    public static final String COZINHA_EM_USO = "A Cozinha %s está em uso";
+    private static final String MSG_COZINHA_NAO_ENCONTRADA = "Cozinha %d não encontrada";
+    private static final String MSG_COZINHA_EM_USO = "A Cozinha %s está em uso";
     @Autowired
-    CozinhaRepository cozinhaRepository;
+    private CozinhaRepository cozinhaRepository;
 
     public Cozinha salvar(Cozinha cozinha) {
         return cozinhaRepository.save(cozinha);
@@ -30,7 +29,7 @@ public class CadastroCozinhaService {
             throw new EntidadeNaoEncontradaException(String.format(MSG_COZINHA_NAO_ENCONTRADA,id));
         }
         catch (DataIntegrityViolationException e){
-            throw new EntidadeEmUsoException(String.format(COZINHA_EM_USO,id));
+            throw new EntidadeEmUsoException(String.format(MSG_COZINHA_EM_USO,id));
         }
     }
 

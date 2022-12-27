@@ -13,7 +13,8 @@ import java.util.Optional;
 
 @Service
 public class CadastroRestauranteService {
-
+    private static final String MSG_RESTAURANTE_NAO_ENCONTRADO = "Restaurante %d não foi encontrado";
+    private static final String MSG_ESTADO_EM_USO = "O Restaurante %s está em uso";
     @Autowired
     private RestauranteRepository restauranteRepository;
 
@@ -21,7 +22,6 @@ public class CadastroRestauranteService {
     private CozinhaRepository cozinhaRepository;
 
     public Restaurante salvar(Restaurante restaurante){
-
        return restauranteRepository.save(restaurante);
 
     }
