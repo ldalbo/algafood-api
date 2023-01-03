@@ -1,6 +1,9 @@
 package com.algaworks.algafood.api.controller;
 
 import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
+import com.algaworks.algafood.domain.exception.NegocioException;
+import com.algaworks.algafood.domain.exception.RestauranteNaoEncontradoException;
+import com.algaworks.algafood.domain.model.Cidade;
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
@@ -46,17 +49,14 @@ public class RestauranteController {
     }
 
     @PostMapping
-    public ResponseEntity<?> salvar(@RequestBody Restaurante restaurante ){
+    @ResponseStatus(HttpStatus.CREATED)
+    public Restaurante salvar(@RequestBody Restaurante restaurante ){
         try{
-            restaurante = cadastroRestaurante.salvar(restaurante);
-            return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(restaurante);
+            return cadastroRestaurante.salvar(restaurante);
         }
         catch (EntidadeNaoEncontradaException e){
-            return  ResponseEntity.badRequest()
-                    .body(e.getMessage());
+            throw new NegocioException(e.getMessage());
         }
-
     }
 
 
@@ -67,37 +67,24 @@ public class RestauranteController {
             cadastroRestaurante.exluir(restauranteId);
             return ResponseEntity.noContent().build();
         }
-        catch (EntidadeNaoEncontradaException e){
+        catch (RestauranteNaoEncontradoException e){
             return  ResponseEntity.badRequest()
                     .body(e.getMessage());
         }
     }
 
+
     @PutMapping("{id}")
-    public ResponseEntity<Restaurante> atualizar(@PathVariable("id") Long Id,@RequestBody Restaurante restaurante){
+    public Restaurante atualizar(@PathVariable("id") Long Id,@RequestBody Restaurante restaurante){
+        Restaurante restauranteAtual = cadastroRestaurante.buscarOuFalhar(Id);
+        try{
 
-        // TEMOS A NOVA COZINHA
-        Long cozinhaId = restaurante.getCozinha().getId();
-
-        // VER SE ESSA COZINHA EXISTE
-        Optional<Cozinha> cozinhaSalva = cozinhaRepository.findById(cozinhaId);
-
-        if (cozinhaSalva.isEmpty()){
-            return ResponseEntity.badRequest().build();
+            BeanUtils.copyProperties(restaurante,restauranteAtual,"id","dataCadastro");
+            return cadastroRestaurante.salvar(restaurante);
         }
-
-        Optional<Restaurante> restauranteAtual = restauranteRepository.findById(Id);
-        if (restauranteAtual.isPresent()){
-
-
-            BeanUtils.copyProperties(restaurante,restauranteAtual.get(),"id","formaPagamento","endereco","dataCadastro");
-            Restaurante restauranteNovo = cadastroRestaurante.salvar(restauranteAtual.get());
-            return ResponseEntity.ok(restauranteAtual.get());
-
+        catch (RestauranteNaoEncontradoException e){
+            throw new NegocioException(e.getMessage());
         }
-
-        return ResponseEntity.notFound().build();
-
 
     }
 

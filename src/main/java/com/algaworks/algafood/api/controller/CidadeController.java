@@ -2,6 +2,8 @@ package com.algaworks.algafood.api.controller;
 
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
+import com.algaworks.algafood.domain.exception.EstadoNaoEncontradoException;
+import com.algaworks.algafood.domain.exception.NegocioException;
 import com.algaworks.algafood.domain.model.Cidade;
 import com.algaworks.algafood.domain.model.Estado;
 import com.algaworks.algafood.domain.repository.CidadeRepository;
@@ -52,25 +54,25 @@ public class CidadeController {
     @ResponseStatus(HttpStatus.CREATED)
     public Cidade adicionar(@RequestBody Cidade cidade){
         // Preciso ver se esse estado que vem do json está persistido
-        return cadastroCidade.salvar(cidade);
+        try{
+            return cadastroCidade.salvar(cidade);
+        }
+        catch (EstadoNaoEncontradoException e ){
+            throw new NegocioException(e.getMessage(),e);
+        }
     }
 
    @PutMapping("{id}")
     public Cidade atualizar(@PathVariable("id") Long id,@RequestBody Cidade cidade){
-       System.out.println(" 00 ");
-        Long estadoId = cidade.getEstado().getId();
-        Estado estadoSalvo = cadastroEstado.buscarOuFalhar(estadoId);
-
-       System.out.println(" 01");
-
         Cidade cidadeAtual = cadastroCidade.buscarOuFalhar(id);
 
-       System.out.println(" 02 ");
-        BeanUtils.copyProperties(cidade,cidadeAtual,"id");
-        // PRECISO PEGAR O QUE É PERSISITIDO
-        cidade.setEstado(estadoSalvo);
-
-        return cadastroCidade.salvar(cidade);
+        try{
+            BeanUtils.copyProperties(cidade,cidadeAtual,"id");
+            return cadastroCidade.salvar(cidade);
+        }
+        catch (EstadoNaoEncontradoException e ){
+            throw new NegocioException(e.getMessage(),e);
+        }
 
     }
 

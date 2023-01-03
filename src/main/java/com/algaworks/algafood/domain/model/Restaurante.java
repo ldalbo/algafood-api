@@ -36,7 +36,7 @@ public class Restaurante {
     // A MESMA  COZINHA
     // NO TESTE FEITO, TEMOS 3 RESTAURANTES, APONTANDO PARA 3
     // COZINAHS
-    @JsonIgnore
+    // @JsonIgnore
     /// @JsonIgnoreProperties("hibernateLazyInitializer")
     @ManyToOne (fetch = FetchType.LAZY)
     // DIGO O NOME DA COLUNA QUE DEVE SER CRIADA
@@ -64,7 +64,7 @@ public class Restaurante {
             inverseJoinColumns = @JoinColumn (name= "forma_pagamento_id"))
     private List<FormaPagamento> formaPagamento = new ArrayList<>();
 
-
+/*
     @JsonIgnore
     @ManyToMany
     @JoinTable (name="restaurante_usuario",
@@ -73,6 +73,6 @@ public class Restaurante {
     )
     List<Usuario> usuarios = new ArrayList<>();
 
-
+*/
 
 }
