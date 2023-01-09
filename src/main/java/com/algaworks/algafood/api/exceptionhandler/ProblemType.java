@@ -4,9 +4,11 @@ import lombok.Getter;
 
 @Getter
 public enum ProblemType {
-    JSON_INVALIDO("/conteudo-invalido","Conteúdo inválido"),
-    ENTIDADE_NAO_ENCONTRADA("/entidade-nao-encontrada","Entidade não encontrada"),
+    PARAMETRO_INVALIDO("/parametro-invalido","Parâmetro inválido, revise o endpoint"),
+    JSON_INVALIDO("/conteudo-invalido","Conteúdo inválido "),
+    RECURSO_NAO_ENCONTRADO("/entidade-nao-encontrada","Entidade não encontrada"),
     ENTIDADE_EM_USO("/entidade-em-uso","Entidade em Uso"),
+    ERRO_INESPERADO("/erro-inesperado","Erro Inesperado"),
     ERRO_NEGOCIO("/erro-negocio","Regra de negócio violada");
 
     private String title;

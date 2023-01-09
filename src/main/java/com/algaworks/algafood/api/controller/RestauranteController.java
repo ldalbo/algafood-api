@@ -39,8 +39,12 @@ public class RestauranteController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity <Restaurante> buscar(@PathVariable("id") Long RestauranteId){
-        Optional<Restaurante> restaurante = restauranteRepository.findById(RestauranteId);
+    public ResponseEntity <Restaurante> buscar(@PathVariable("id") Long restauranteId){
+        if (true){
+            throw  new IllegalArgumentException("Ola");
+        }
+        Optional<Restaurante> restaurante = restauranteRepository.findById(restauranteId);
+
         if (restaurante.isEmpty()){
             return  ResponseEntity.notFound().build();
         }
