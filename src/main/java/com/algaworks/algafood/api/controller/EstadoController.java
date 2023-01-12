@@ -10,8 +10,10 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,7 +39,7 @@ public class EstadoController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Estado salvar(@RequestBody  Estado estado){
+    public Estado salvar(@RequestBody @Valid Estado estado){
         return cadastroEstado.salvar(estado);
 
     }
@@ -53,7 +55,7 @@ public class EstadoController {
 
 
     @PutMapping("{id}")
-    public Estado  atualizar(@PathVariable("id") Long estadoId, @RequestBody Estado estado){
+    public Estado  atualizar(@PathVariable("id") Long estadoId, @RequestBody @Valid  Estado estado){
         Estado estadoAtual = cadastroEstado.buscarOuFalhar(estadoId);
         BeanUtils.copyProperties(estado,estadoAtual,"id");
         return  cadastroEstado.salvar(estadoAtual);

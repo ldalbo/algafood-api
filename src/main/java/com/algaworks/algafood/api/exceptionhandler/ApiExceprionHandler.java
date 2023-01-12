@@ -12,6 +12,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -32,6 +34,35 @@ import java.util.stream.Collectors;
 public class ApiExceprionHandler extends ResponseEntityExceptionHandler {
 
     public static final String MSG_TO_USER = "Erro do sistema chame o administardor";
+    // MethodArgumentNotValidException
+
+
+
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+
+        ProblemType problemType = ProblemType.DADOS_INVALIDOS;
+        String detail = "Um ou mais campos estão inválidos. Faça o preenchimento correto e tente novamente.";
+        BindingResult bindingResult = ex.getBindingResult();
+
+        List<Problem.Field> problemFields = bindingResult.getFieldErrors()
+                .stream().map(fieldError -> Problem.Field.builder()
+                        .name(fieldError.getField())
+                        .userMessage(fieldError.getDefaultMessage()).build()).collect(Collectors.toList());
+
+
+
+        Problem problem = createProblemBuilder(status, problemType, detail)
+                .userMessage(detail)
+                .fields(problemFields)
+                .build();
+
+
+        return handleExceptionInternal(ex,problem,new HttpHeaders(),status,request);
+
+    }
+
+
 
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
@@ -40,11 +71,11 @@ public class ApiExceprionHandler extends ResponseEntityExceptionHandler {
 
 
         if (rootCause instanceof InvalidFormatException){
-            System.out.println("PEGUEI 01");
+
             return handleInvalidFormatException( (InvalidFormatException) rootCause, headers,  status,  request);
         }
         else if (rootCause instanceof PropertyBindingException) {
-            System.out.println("PEGUEI 02");
+
                 return handlePropertyBindingException((PropertyBindingException) rootCause, headers, status, request);
         }
 

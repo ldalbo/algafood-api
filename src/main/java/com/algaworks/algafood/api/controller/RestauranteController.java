@@ -15,7 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
+
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,7 +55,7 @@ public class RestauranteController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Restaurante salvar(@RequestBody Restaurante restaurante ){
+    public Restaurante salvar(@RequestBody @Valid Restaurante restaurante){
         try{
             return cadastroRestaurante.salvar(restaurante);
         }
@@ -79,7 +80,7 @@ public class RestauranteController {
 
 
     @PutMapping("{id}")
-    public Restaurante atualizar(@PathVariable("id") Long Id,@RequestBody Restaurante restaurante){
+    public Restaurante atualizar(@PathVariable("id") Long Id,@RequestBody @Valid Restaurante restaurante){
         Restaurante restauranteAtual = cadastroRestaurante.buscarOuFalhar(Id);
         try{
 
