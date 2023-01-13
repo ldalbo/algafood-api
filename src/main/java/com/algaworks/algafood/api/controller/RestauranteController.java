@@ -54,12 +54,16 @@ public class RestauranteController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Restaurante adicionar(@RequestBody @Valid Restaurante restaurante) {
+    public Restaurante adicionar(@RequestBody  Restaurante restaurante) {
+        System.out.println("RestauranteCrontroller.adicionar");
         try {
+
             return cadastroRestaurante.salvar(restaurante);
         } catch (CozinhaNaoEncontradaException e) {
+            System.out.println("RestauranteCrontroller.CozinhaNaoEncontradaException");
             throw new NegocioException(e.getMessage());
         }
+
     }
 
     @PutMapping("/{restauranteId}")

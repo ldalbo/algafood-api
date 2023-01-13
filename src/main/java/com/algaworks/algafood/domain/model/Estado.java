@@ -1,8 +1,8 @@
 package com.algaworks.algafood.domain.model;
 
 import lombok.Data;
-import org.hibernate.annotations.NotFound;
-import org.springframework.stereotype.Component;
+import lombok.EqualsAndHashCode;
+
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -10,9 +10,13 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Estado {
 
 
+
+    @NotNull
+    @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

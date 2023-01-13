@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -46,12 +47,13 @@ public class CidadeController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Cidade adicionar(@RequestBody Cidade cidade){
+    public Cidade adicionar(@RequestBody  Cidade cidade){
         // Preciso ver se esse estado que vem do json está persistido
         try{
             return cadastroCidade.salvar(cidade);
         }
         catch (EstadoNaoEncontradoException e ){
+            System.out.println("Lançou exception EstadoNaoEncontradoException");
             throw new NegocioException(e.getMessage(),e);
         }
     }

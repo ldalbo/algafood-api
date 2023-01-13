@@ -1,5 +1,8 @@
 package com.algaworks.algafood.api.controller;
 
+import com.algaworks.algafood.domain.exception.EstadoNaoEncontradoException;
+import com.algaworks.algafood.domain.exception.NegocioException;
+import com.algaworks.algafood.domain.model.Cidade;
 import com.algaworks.algafood.domain.model.Estado;
 import com.algaworks.algafood.domain.repository.EstadoRepository;
 import com.algaworks.algafood.domain.service.CadastroEstadoService;
@@ -33,10 +36,18 @@ public class EstadoController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Estado salvar(@RequestBody @Valid Estado estado){
-        return cadastroEstado.salvar(estado);
+    public Estado salvar(@RequestBody  Estado estado){
+        System.out.println("EstadoCrontroller.salvar");
+        try{
+            return cadastroEstado.salvar(estado);
+        }
+        catch (EstadoNaoEncontradoException e ){
+            throw new NegocioException(e.getMessage(),e);
+        }
 
     }
+
+
 
     @DeleteMapping("{id}")
 

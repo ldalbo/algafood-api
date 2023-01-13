@@ -12,7 +12,6 @@ public enum ProblemType {
     ERRO_NEGOCIO("/erro-negocio","Regra de negócio violada"),
     DADOS_INVALIDOS("/dados-invalidos","Dados inválidos");
 
-
     private String title;
     private String uri;
 
