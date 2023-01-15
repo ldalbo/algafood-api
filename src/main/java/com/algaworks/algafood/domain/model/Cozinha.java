@@ -6,6 +6,7 @@ import lombok.Data;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,7 @@ public class Cozinha {
     @NotNull
     private Long id;
 
+    @NotBlank
     @Column(name="nome")
     private String nome;
 

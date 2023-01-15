@@ -50,7 +50,6 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
         Problem problem = createProblemBuilder(status, problemType, detail)
                 .userMessage(detail)
-                .title("blabla ")
                 .fields(problemFields)
                 .build();
 
@@ -143,6 +142,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(ex, problem, headers, status, request);
     }
     // NoHandlerFoundException
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleExpecionGenerica(Exception ex, WebRequest request) {
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
@@ -247,8 +247,6 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                     .title((String) body)
                     .localtime(LocalDateTime.now())
                     .userMessage(MSG_TO_USER)
-
-
                     .build();
 
         }

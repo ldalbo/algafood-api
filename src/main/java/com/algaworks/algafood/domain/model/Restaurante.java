@@ -29,7 +29,6 @@ public class Restaurante {
     private Long id;
 
     @NotNull
-    @NotBlank
     @Column(name = "nome")
     private String nome;
 

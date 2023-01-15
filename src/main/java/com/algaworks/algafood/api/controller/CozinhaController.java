@@ -1,5 +1,8 @@
 package com.algaworks.algafood.api.controller;
 
+import com.algaworks.algafood.domain.exception.CozinhaNaoEncontradaException;
+import com.algaworks.algafood.domain.exception.EstadoNaoEncontradoException;
+import com.algaworks.algafood.domain.exception.NegocioException;
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
 import com.algaworks.algafood.domain.service.CadastroCozinhaService;
@@ -8,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -41,8 +45,13 @@ public class CozinhaController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Cozinha adicionar(@RequestBody Cozinha cozinha){
-       return cadastroCozinha.salvar(cozinha);
+    public Cozinha adicionar(@RequestBody @Valid  Cozinha cozinha){
+        try{
+            return cadastroCozinha.salvar(cozinha);
+        }
+        catch (CozinhaNaoEncontradaException e ){
+            throw new NegocioException(e.getMessage(),e);
+        }
     }
 
     @PutMapping("{id}") // PARA PUT pode ser os 2 "/{id}  ou "{id}"
