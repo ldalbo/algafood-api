@@ -1,5 +1,6 @@
 package com.algaworks.algafood.domain.model;
 
+import com.algaworks.algafood.Groups;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
@@ -28,7 +29,7 @@ public class Restaurante {
     @EqualsAndHashCode.Include
     private Long id;
 
-    @NotNull
+    @NotBlank(groups = Groups.CadastroRestaurante.class)
     @Column(name = "nome")
     private String nome;
 
@@ -47,7 +48,7 @@ public class Restaurante {
 
 
     @Valid
-    @NotNull
+    @NotNull(groups = Groups.CadastroRestaurante.class)
     @ManyToOne
     @JoinColumn(name = "cozinha_id", nullable = false)
     private Cozinha cozinha;

@@ -1,6 +1,7 @@
 package com.algaworks.algafood.domain.model;
 
 
+import com.algaworks.algafood.Groups;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
@@ -20,7 +21,7 @@ public class Cozinha {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull
+    @NotNull(groups = Groups.CadastroRestaurante.class)
     private Long id;
 
     @NotBlank
