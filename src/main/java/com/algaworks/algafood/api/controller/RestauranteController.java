@@ -56,7 +56,7 @@ public class RestauranteController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Restaurante adicionar(@RequestBody @Validated(Groups.CadastroRestaurante.class) Restaurante restaurante) {
+    public Restaurante adicionar(@RequestBody @Valid Restaurante restaurante) {
         System.out.println("RestauranteCrontroller.adicionar");
         try {
 
@@ -69,16 +69,22 @@ public class RestauranteController {
     }
 
     @PutMapping("/{restauranteId}")
-    public Restaurante atualizar(@PathVariable Long restauranteId,
-                                 @RequestBody  Restaurante restaurante) {
+    public Restaurante atualizar(@PathVariable  Long restauranteId,
+                                 @RequestBody @Valid Restaurante restaurante) {
         try {
+            System.out.println("RestauranteCrontroller.PutMapping01.CozinhaNaoEncontradaException");
+
             Restaurante restauranteAtual = cadastroRestaurante.buscarOuFalhar(restauranteId);
+            System.out.println("RestauranteCrontroller.PutMapping02.CozinhaNaoEncontradaException");
 
             BeanUtils.copyProperties(restaurante, restauranteAtual,
                     "id", "formasPagamento", "endereco", "dataCadastro", "produtos");
+            System.out.println("RestauranteCrontroller.PutMapping03.CozinhaNaoEncontradaException");
 
             return cadastroRestaurante.salvar(restauranteAtual);
         } catch (CozinhaNaoEncontradaException e) {
+            System.out.println("RestauranteCrontroller.PutMapping04.CozinhaNaoEncontradaException");
+
             throw new NegocioException(e.getMessage());
         }
     }

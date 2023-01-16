@@ -13,6 +13,8 @@ import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.groups.ConvertGroup;
+import javax.validation.groups.Default;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -29,26 +31,18 @@ public class Restaurante {
     @EqualsAndHashCode.Include
     private Long id;
 
-    @NotBlank(groups = Groups.CadastroRestaurante.class)
+    @NotNull
     @Column(name = "nome")
     private String nome;
-
-
-
     @Column(name="taxa_frete", nullable = false)
     private BigDecimal taxaFrete;
 
-    // MUITOS RESTAURANTES, PODEM APONTAR PARA
-    // A MESMA  COZINHA
-    // NO TESTE FEITO, TEMOS 3 RESTAURANTES, APONTANDO PARA 3
-    // COZINAHS
     // @JsonIgnore
     /// @JsonIgnoreProperties("hibernateLazyInitializer")
 
-
-
     @Valid
-    @NotNull(groups = Groups.CadastroRestaurante.class)
+    @NotNull
+    @ConvertGroup(from = Default.class, to= Groups.CozinhaId.class)
     @ManyToOne
     @JoinColumn(name = "cozinha_id", nullable = false)
     private Cozinha cozinha;

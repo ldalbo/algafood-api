@@ -36,7 +36,7 @@ public class EstadoController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Estado salvar(@RequestBody  Estado estado){
+    public Estado salvar(@RequestBody @Valid Estado estado){
         System.out.println("EstadoCrontroller.salvar");
         try{
             return cadastroEstado.salvar(estado);

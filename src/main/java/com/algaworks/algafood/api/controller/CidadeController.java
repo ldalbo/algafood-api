@@ -47,7 +47,7 @@ public class CidadeController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Cidade adicionar(@RequestBody  Cidade cidade){
+    public Cidade adicionar(@RequestBody @Valid Cidade cidade){
         // Preciso ver se esse estado que vem do json está persistido
         try{
             return cadastroCidade.salvar(cidade);
@@ -59,7 +59,7 @@ public class CidadeController {
     }
 
    @PutMapping("{id}")
-    public Cidade atualizar(@PathVariable("id") Long id,@RequestBody Cidade cidade){
+    public Cidade atualizar(@PathVariable("id") Long id,@RequestBody @Valid Cidade cidade){
         Cidade cidadeAtual = cadastroCidade.buscarOuFalhar(id);
 
         try{
