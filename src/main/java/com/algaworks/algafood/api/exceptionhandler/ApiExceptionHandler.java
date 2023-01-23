@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -27,6 +28,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,6 +41,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     @Autowired
     private MessageSource messageSource;
 
+/*
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
 
@@ -73,8 +76,52 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(ex,problem,new HttpHeaders(),status,request);
 
     }
+*/
+
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+                                                                  HttpHeaders headers,
+                                                                  HttpStatus status,
+                                                                  WebRequest request) {
+
+        ProblemType problemType = ProblemType.DADOS_INVALIDOS;
+        String detail = "Um ou mais campos estão inválidos. Faça o preenchimento correto e tente novamente.";
+        BindingResult bindingResult = ex.getBindingResult();
+        // Input
+        List<ObjectError> objectErrorList = bindingResult.getAllErrors();
+        // Output
+        List<Problem.Field> problemObjects = new ArrayList<Problem.Field>();
+        // Percorro os erros
+        for (ObjectError objectError : objectErrorList){
+            String message = messageSource.getMessage(objectError, LocaleContextHolder.getLocale());
+            String objetoTexto = objectError.getObjectName();
+
+            if (objectError instanceof FieldError){
+                objetoTexto = ((FieldError) objectError).getField();
+            }
+
+            var problemField = new Problem.Field();
+            problemField.setName(objetoTexto);
+            problemField.setUserMessage(message);
+
+            problemObjects.add(problemField);
+
+            /*
+            problemObjects.add(Problem.Field.builder()
+                    .name(objetoTexto)
+                    .userMessage(message).build());
+
+             */
+        }
+
+        Problem problem = createProblemBuilder(status, problemType, detail)
+                .userMessage(detail)
+                .objects(problemObjects)
+                .build();
 
 
+        return handleExceptionInternal(ex,problem,new HttpHeaders(),status,request);
+
+    }
 
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
