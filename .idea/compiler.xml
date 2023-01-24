@@ -9,12 +9,15 @@
         <outputRelativeToContentRoot value="true" />
         <module name="exemplo-di" />
         <module name="algafood-api" />
+        <module name="algafood-api (1)" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="algafood-api" options="-parameters" />
+      <module name="algafood-api (1)" options="-parameters" />
+      <module name="algafood-api (2)" options="-parameters" />
       <module name="exemplo-di" options="-parameters" />
     </option>
   </component>
