@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = com.algaworks.algafood.AlgafoodApiApplication.class)
 // @SpringBootTest
-public class CadastroCozinhaJUnit4IntegrationTests {
+public class CadastroCozinhaJUnit4IT {
 
 	@Autowired
 	CadastroCozinhaService cadastroCozinha;
