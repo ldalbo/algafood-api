@@ -13,6 +13,14 @@ public class AlgafoodApiApplication {
 		SpringApplication.run(AlgafoodApiApplication.class, args);
 		System.out.println(" Iniciando Spring");
 	}
+	/*
+<<<<<<< HEAD
     // Testando se grava na main
+=======
+    // Colocando na Branch
+	// Como estava trabalhando na desenvolvimento, o commit deve ser lá
+>>>>>>> modulo11
+*/
+
 
 }

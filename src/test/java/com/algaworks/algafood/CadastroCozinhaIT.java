@@ -34,4 +34,6 @@ public class CadastroCozinhaIT {
         .then()
                 .statusCode(HttpStatus.OK.value());
     }
+
+
 }
