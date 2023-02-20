@@ -53,7 +53,7 @@ public class Restaurante {
     // @JsonIgnore
     /// @JsonIgnoreProperties("hibernateLazyInitializer")
 
-    @JsonIgnoreProperties(value = "nome", allowGetters = true)  // Ignora apenas quando vem json do Restaurante
+    // @JsonIgnoreProperties(value = "nome", allowGetters = true)  // Ignora apenas quando vem json do Restaurante
     @Valid
     @NotNull
     @ConvertGroup(from = Default.class, to= Groups.CozinhaId.class)
@@ -61,21 +61,21 @@ public class Restaurante {
     @JoinColumn(name = "cozinha_id", nullable = false)
     private Cozinha cozinha;
 
-    @JsonIgnore
+   //  @JsonIgnore
     @Embedded
     private Endereco endereco;
 
-    @JsonIgnore
+  //   @JsonIgnore
     @CreationTimestamp
     @Column(nullable = false, columnDefinition = "datetime")
     private LocalDateTime dataCadastro;
 
-    @JsonIgnore
+  //  @JsonIgnore
     @UpdateTimestamp
     @Column(nullable = false, columnDefinition = "datetime")
     private LocalDateTime dataAtualizacao;
 
-    @JsonIgnore
+  // @JsonIgnore
     @ManyToMany
     @JoinTable(name = "restaurante_forma_pagamento",
             joinColumns = @JoinColumn(name ="restaurante_id"),
