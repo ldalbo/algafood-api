@@ -53,7 +53,7 @@ public class Restaurante {
     // @JsonIgnore
     /// @JsonIgnoreProperties("hibernateLazyInitializer")
 
-    // @JsonIgnoreProperties(value = "nome", allowGetters = true)  // Ignora apenas quando vem json do Restaurante
+    //@JsonIgnoreProperties(value = "nome", allowGetters = true)  // Ignora apenas quando vem json do Restaurante
     @Valid
     @NotNull
     @ConvertGroup(from = Default.class, to= Groups.CozinhaId.class)

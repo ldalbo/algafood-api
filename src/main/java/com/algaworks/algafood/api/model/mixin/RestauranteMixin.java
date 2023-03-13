@@ -1,6 +1,5 @@
 package com.algaworks.algafood.api.model.mixin;
 
-import com.algaworks.algafood.core.validation.Groups;
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.model.Endereco;
 import com.algaworks.algafood.domain.model.FormaPagamento;
