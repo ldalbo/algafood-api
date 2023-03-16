@@ -7,4 +7,7 @@ public abstract class EntidadeNaoEncontradaException extends NegocioException{
         super(mensagem);
 
     }
+
+
+
 }

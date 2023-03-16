@@ -50,7 +50,6 @@ public class EstadoController {
 
 
     @DeleteMapping("{id}")
-
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void remover (@PathVariable("id") Long estadoId){
 

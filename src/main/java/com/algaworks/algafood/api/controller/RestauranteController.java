@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/restaurantes")  // NIVEL DE CLASSE
@@ -31,8 +30,7 @@ public class RestauranteController {
     @Autowired
     CadastroRestauranteService cadastroRestaurante;
 
-    @Autowired
-    CozinhaRepository cozinhaRepository;
+
 
     @GetMapping
     public List<RestauranteModel> listar(){
@@ -87,9 +85,9 @@ public class RestauranteController {
 
 
     @DeleteMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void remover(@PathVariable("id") Long restauranteId){
-
-            cadastroRestaurante.exluir(restauranteId);
+           cadastroRestaurante.exluir(restauranteId);
 
     }
 

@@ -1,7 +1,7 @@
 package com.algaworks.algafood.domain.service;
 
+import com.algaworks.algafood.domain.exception.CozinhaEmUsoException;
 import com.algaworks.algafood.domain.exception.CozinhaNaoEncontradaException;
-import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,15 +25,22 @@ public class CadastroCozinhaService {
     @Transactional
     public void excluir(Long id){
         try{
+            System.out.println("VAI EXCLUIR");
             cozinhaRepository.deleteById(id);
+            cozinhaRepository.flush();
         }
         catch(EmptyResultDataAccessException e){
+            System.out.println("SEM COZINHA 2 #" +  e.toString() + "#");
             throw new CozinhaNaoEncontradaException(id);
         }
         catch (DataIntegrityViolationException e){
-            throw new EntidadeEmUsoException(String.format(MSG_COZINHA_EM_USO,id));
+            System.out.println("COZINHA VIOLADA #" +  e.toString() + "#");
+            throw new CozinhaEmUsoException(String.format(MSG_COZINHA_EM_USO,id));
         }
-    }
+        catch (Exception e){
+            System.out.println("GENERICA #" +  e.toString() + "#");
+        }
+  }
 
     public Cozinha buscarOuFalhar(Long id){
         System.out.println("buscarOuFalhar:" + id);
