@@ -32,6 +32,8 @@ import java.util.List;
 @Entity
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+
+// TODOS  OS @ QUE FORAM COMENTADOS, FORAM PARA RestauranteInput
 public class Restaurante {
 
 
@@ -40,13 +42,14 @@ public class Restaurante {
     @EqualsAndHashCode.Include
     private Long id;
 
-    @NotBlank
+    // @NotBlank
     @Column(name = "nome")
     private String nome;
 
-    @NotNull
-    @PositiveOrZero(message = "{TaxaFrete.invalida}")
-    @Multiplo(numero=5)
+
+    //@NotNull
+    //@PositiveOrZero
+    //@Multiplo(numero=5)
     @Column(name = "taxa_frete", nullable = false)
     private BigDecimal taxaFrete;
 
@@ -55,9 +58,9 @@ public class Restaurante {
     /// @JsonIgnoreProperties("hibernateLazyInitializer")
 
     //@JsonIgnoreProperties(value = "nome", allowGetters = true)  // Ignora apenas quando vem json do Restaurante
-    @Valid
-    @NotNull
-    @ConvertGroup(from = Default.class, to= Groups.CozinhaId.class)
+    //@Valid
+    //@NotNull
+    //@ConvertGroup(from = Default.class, to= Groups.CozinhaId.class)
     @ManyToOne
     @JoinColumn(name = "cozinha_id", nullable = false)
     private Cozinha cozinha;
