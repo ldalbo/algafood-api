@@ -75,6 +75,7 @@ public class Restaurante {
     private OffsetDateTime dataCadastro;
 
 
+
     @UpdateTimestamp
     @Column(nullable = false, columnDefinition = "datetime")
     private OffsetDateTime dataAtualizacao;
