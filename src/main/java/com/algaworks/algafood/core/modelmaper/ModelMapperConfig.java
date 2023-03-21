@@ -15,14 +15,6 @@ public class ModelMapperConfig {
 
     @Bean
     public ModelMapper modelMapper(){
-        var modelMapper = new ModelMapper();
-
-        // Classe de origem para classe destino
-        // método origem para método destino
-        modelMapper.createTypeMap(Restaurante.class,RestauranteModel.class)
-                .addMapping( Restaurante::getTaxaFrete, RestauranteModel::setPrecoFrete);
-
-
-        return modelMapper;
+        return new ModelMapper();
     }
 }

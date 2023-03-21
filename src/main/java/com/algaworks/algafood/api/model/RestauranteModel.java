@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 public class RestauranteModel {
     Long id;
     String nome;
-    BigDecimal precoFrete;
+    BigDecimal taxaFrete;
     CozinhaModel cozinha;
 
 
