@@ -16,11 +16,13 @@ public class RestauranteInputDisassembler {
     @Autowired
     private ModelMapper modelMapper;
 
+    // Usado no Post, aqui é mais feita uma tipagem
+
     public Restaurante toDomainObject(RestauranteInput restauranteInput) {
         return modelMapper.map(restauranteInput, Restaurante.class);
     }
 
-    // Copia do dominio Json para o objeto Restaurante
+    // Copia do dominio Json para o objeto Restaurante, usado no Put
     public void copyToDomainObject(RestauranteInput restauranteInput, Restaurante restaurante){
         // Se não fizer isso vai bugar
         // Caused by: org.hibernate.HibernateException: identifier of an instance

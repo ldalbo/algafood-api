@@ -15,17 +15,14 @@ import javax.validation.groups.Default;
 
 public class CidadeInput {
 
-
-
     private Long id;
-
     @NotNull
 
+    @NotNull
     private String nome;
 
     @Valid
     @NotNull
-
     private EstadoInput estado;
 
 }

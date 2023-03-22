@@ -31,7 +31,7 @@ public class Cidade {
     @Valid
     @NotNull
     @ManyToOne
-    @ConvertGroup(from = Default.class, to = Groups.EstadoId.class)
+  //  @ConvertGroup(from = Default.class, to = Groups.EstadoId.class)
     @JoinColumn(name = "estado_id")
     private Estado estado;
 

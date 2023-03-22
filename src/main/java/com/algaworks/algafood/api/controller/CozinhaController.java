@@ -1,5 +1,9 @@
 package com.algaworks.algafood.api.controller;
 
+import com.algaworks.algafood.api.assembler.CozinhaInputDissambler;
+import com.algaworks.algafood.api.assembler.CozinhaModelAssembler;
+import com.algaworks.algafood.api.model.CozinhaModel;
+import com.algaworks.algafood.api.model.input.CozinhaInput;
 import com.algaworks.algafood.domain.exception.CozinhaNaoEncontradaException;
 import com.algaworks.algafood.domain.exception.EstadoNaoEncontradoException;
 import com.algaworks.algafood.domain.exception.NegocioException;
@@ -26,7 +30,15 @@ public class CozinhaController {
     @Autowired
     private CadastroCozinhaService cadastroCozinha;
 
+    @Autowired
+    private CozinhaModelAssembler cozinhaModelAssembler;
+
+    @Autowired
+    private CozinhaInputDissambler cozinhaInputDissambler;
+
     // ACRESCENTA NO FINAL DA PRINCIPAL, NESSE CASO NADA
+
+
 
     @GetMapping
     public List<Cozinha> listar(){
@@ -34,20 +46,22 @@ public class CozinhaController {
 
    }
 
-
     @GetMapping("{id}") //AQUI PODE SER QUALQUER NOME
-    public Cozinha buscar(@PathVariable("id") Long cozinhaId){ // explicito é dizer "Pegue do Mapping o "id"
+    public CozinhaModel buscar(@PathVariable("id") Long cozinhaId){ // explicito é dizer "Pegue do Mapping o "id"
 
-        return cadastroCozinha.buscarOuFalhar(cozinhaId);
+        return cozinhaModelAssembler.toModel(cadastroCozinha.buscarOuFalhar(cozinhaId));
 
     }
 
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Cozinha adicionar(@RequestBody @Valid  Cozinha cozinha){
+    public CozinhaModel adicionar(@RequestBody @Valid CozinhaInput cozinhaInput){
         try{
-            return cadastroCozinha.salvar(cozinha);
+            // Do input transformo em objeto
+            Cozinha cozinha = cadastroCozinha.salvar(cozinhaInputDissambler.domainToObject(cozinhaInput));
+            // do objeto transformo em dominio
+            return cozinhaModelAssembler.toModel(cozinha);
         }
         catch (CozinhaNaoEncontradaException e ){
             throw new NegocioException(e.getMessage(),e);
@@ -55,11 +69,12 @@ public class CozinhaController {
     }
 
     @PutMapping("{id}") // PARA PUT pode ser os 2 "/{id}  ou "{id}"
-    public Cozinha atualizar(@PathVariable("id") Long cozinhaId, @RequestBody @Valid Cozinha cozinha){
+    public CozinhaModel atualizar(@PathVariable("id") Long cozinhaId, @RequestBody @Valid CozinhaInput cozinhaInput){
 
         Cozinha cozinhaAtual = cadastroCozinha.buscarOuFalhar(cozinhaId);
-        BeanUtils.copyProperties(cozinha,cozinhaAtual,"id");
-        return  cadastroCozinha.salvar(cozinhaAtual);
+        cozinhaInputDissambler.copyDomainToObject(cozinhaInput,cozinhaAtual);
+        return cozinhaModelAssembler.toModel(cozinhaAtual);
+
 
     }
 
