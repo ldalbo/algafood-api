@@ -83,12 +83,20 @@ public class RestauranteController {
 
 
             Restaurante restauranteAtual = cadastroRestaurante.buscarOuFalhar(restauranteId);
+            restauranteInputDisassembler.copyToDomainObject(restauranteInput,restauranteAtual);
+
+
+
+            /* COM A AULA 11.17 a abordagem será pela ModelMapper
+            isso evita caso esqueçamos algum atributo de excluir, que jogue null
             Restaurante restaurante = new Restaurante();
             restaurante = restauranteInputDisassembler.toDomainObject(restauranteInput);
 
+
+
             BeanUtils.copyProperties(restaurante, restauranteAtual,
                     "id", "formasPagamento", "endereco", "dataCadastro", "produtos");
-
+            */
             return restauranteModelAssembler.toModel(cadastroRestaurante.salvar(restauranteAtual));
         } catch (CozinhaNaoEncontradaException e) {
 
