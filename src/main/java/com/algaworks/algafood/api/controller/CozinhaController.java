@@ -3,11 +3,13 @@ package com.algaworks.algafood.api.controller;
 import com.algaworks.algafood.api.assembler.CozinhaInputDissambler;
 import com.algaworks.algafood.api.assembler.CozinhaModelAssembler;
 import com.algaworks.algafood.api.model.CozinhaModel;
+import com.algaworks.algafood.api.model.RestauranteModel;
 import com.algaworks.algafood.api.model.input.CozinhaInput;
 import com.algaworks.algafood.domain.exception.CozinhaNaoEncontradaException;
 import com.algaworks.algafood.domain.exception.EstadoNaoEncontradoException;
 import com.algaworks.algafood.domain.exception.NegocioException;
 import com.algaworks.algafood.domain.model.Cozinha;
+import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
 import com.algaworks.algafood.domain.service.CadastroCozinhaService;
 import org.springframework.beans.BeanUtils;
@@ -16,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -41,9 +44,17 @@ public class CozinhaController {
 
 
     @GetMapping
-    public List<Cozinha> listar(){
-       return  cozinhaRepository.findAll();
+    public List<CozinhaModel> listar(){
 
+        List<Cozinha> cozinhas =   cozinhaRepository.findAll();
+
+        //List<RestauranteModel> restaurantesModel = new ArrayList<RestauranteModel>();
+        // Não preciso tipar o ArrayList
+        List<CozinhaModel> cozinhasModel = new ArrayList<>();
+        for (Cozinha cozinha : cozinhas) {
+            cozinhasModel.add(cozinhaModelAssembler.toModel(cozinha));
+        }
+        return cozinhasModel;
    }
 
     @GetMapping("{id}") //AQUI PODE SER QUALQUER NOME
