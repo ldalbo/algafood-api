@@ -8,6 +8,7 @@ import com.algaworks.algafood.api.model.RestauranteModel;
 import com.algaworks.algafood.api.model.input.RestauranteInput;
 import com.algaworks.algafood.domain.exception.CozinhaNaoEncontradaException;
 import com.algaworks.algafood.domain.exception.NegocioException;
+import com.algaworks.algafood.domain.exception.RestauranteNaoEncontradoException;
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.model.Restaurante;
 
@@ -99,6 +100,28 @@ public class RestauranteController {
             */
             return restauranteModelAssembler.toModel(cadastroRestaurante.salvar(restauranteAtual));
         } catch (CozinhaNaoEncontradaException e) {
+
+            throw new NegocioException(e.getMessage());
+        }
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PutMapping("/{restauranteId}/ativo")
+    public void ativar(@PathVariable  Long restauranteId) {
+        try {
+            cadastroRestaurante.ativar(restauranteId);
+        } catch (RestauranteNaoEncontradoException e) {
+
+            throw new NegocioException(e.getMessage());
+        }
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/{restauranteId}/ativo")
+    public void inativar(@PathVariable  Long restauranteId) {
+        try {
+            cadastroRestaurante.inativar(restauranteId);
+        } catch (RestauranteNaoEncontradoException e) {
 
             throw new NegocioException(e.getMessage());
         }

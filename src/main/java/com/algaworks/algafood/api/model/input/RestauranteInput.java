@@ -25,4 +25,6 @@ public class RestauranteInput {
     @NotNull
     private CozinhaIdInput cozinha;
 
+    private Boolean ativo;
+
 }

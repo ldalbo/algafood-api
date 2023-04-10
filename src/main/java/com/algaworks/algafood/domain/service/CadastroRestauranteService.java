@@ -48,9 +48,25 @@ public class CadastroRestauranteService {
         }
     }
 
+
     public Restaurante buscarOuFalhar(Long id){
         return restauranteRepository.findById(id)
                 .orElseThrow(() ->new RestauranteNaoEncontradoException(
                         id));
+    }
+
+    @Transactional
+    public void ativar(Long restauranteId ){
+        Restaurante restauranteAtual = buscarOuFalhar(restauranteId);
+        // Não precisa de save, pois o JPA já faz o commit
+        restauranteAtual.ativar();
+    }
+
+
+    @Transactional
+    public void inativar(Long restauranteId ){
+        Restaurante restauranteAtual = buscarOuFalhar(restauranteId);
+        // Não precisa de save, pois o JPA já faz o commit
+        restauranteAtual.inativar();
     }
 }
