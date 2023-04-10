@@ -15,6 +15,7 @@ public class CozinhaModelAssembler {
     @Autowired
     private ModelMapper modelMapper;
 
+    // Aqui eu pego os dados dentro da aplicaçào e devolvo o json
     public CozinhaModel toModel(Cozinha cozinha){
         return modelMapper.map(cozinha, CozinhaModel.class );
     }

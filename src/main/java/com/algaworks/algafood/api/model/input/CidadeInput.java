@@ -4,6 +4,8 @@ import com.algaworks.algafood.core.validation.Groups;
 import com.algaworks.algafood.domain.model.Estado;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -12,7 +14,8 @@ import javax.validation.groups.ConvertGroup;
 import javax.validation.groups.Default;
 
 
-
+@Getter
+@Setter
 public class CidadeInput {
 
     private Long id;

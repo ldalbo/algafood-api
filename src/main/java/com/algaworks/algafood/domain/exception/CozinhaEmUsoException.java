@@ -12,7 +12,6 @@ public class CozinhaEmUsoException extends EntidadeEmUsoException{
     public CozinhaEmUsoException(Long Id){
 
        super(String.format("Cozinha %s Está em uso",Id));
-        System.out.println("CozinhaN EM USO #" + Id + "#");
 
     }
 }
