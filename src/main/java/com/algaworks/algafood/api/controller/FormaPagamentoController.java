@@ -23,7 +23,7 @@ public class FormaPagamentoController {
     private FormaPagamentoRepository formaPagamentoRepository;
 
     @Autowired
-    private FormaPagamentoService formaPagamentoService;
+    private FormaPagamentoService cadastroFormaPagamento;
 
     @Autowired
     private FormaPagamentoInputDissambler formaPagamentoInputDissambler;
@@ -48,7 +48,7 @@ public class FormaPagamentoController {
     @GetMapping("/{id}")
     public FormaPagamentoModel get(@PathVariable Long id){
 
-        FormaPagamento formaPagamento = formaPagamentoService.buscarOuFalhar(id);
+        FormaPagamento formaPagamento = cadastroFormaPagamento.buscarOuFalhar(id);
 
         return formaPagamentoModelAssembler.toModel(formaPagamento);
 
@@ -59,7 +59,7 @@ public class FormaPagamentoController {
     public FormaPagamentoModel salvar(@RequestBody @Valid FormaPagamentoInput formaPagamentoInput){
         FormaPagamento formaPagamento = new FormaPagamento();
         formaPagamento = formaPagamentoInputDissambler.domainToObject(formaPagamentoInput);
-        FormaPagamento formaPagamentoSalvo = formaPagamentoService.salvar(formaPagamento);
+        FormaPagamento formaPagamentoSalvo = cadastroFormaPagamento.salvar(formaPagamento);
         return formaPagamentoModelAssembler.toModel(formaPagamentoSalvo);
     }
 
@@ -68,7 +68,7 @@ public class FormaPagamentoController {
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public FormaPagamentoModel atualizar(@RequestBody @Valid FormaPagamentoInput formaPagamentoInput,@PathVariable("id") Long id){
-        FormaPagamento formaPagamentoSalvo = formaPagamentoService.buscarOuFalhar(id);
+        FormaPagamento formaPagamentoSalvo = cadastroFormaPagamento.buscarOuFalhar(id);
         formaPagamentoInputDissambler.copyDomainToObject(formaPagamentoInput,formaPagamentoSalvo);
         return formaPagamentoModelAssembler.toModel(formaPagamentoSalvo);
     }
@@ -77,7 +77,7 @@ public class FormaPagamentoController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void excluir(@PathVariable Long id){
-        formaPagamentoService.excluir(id);
+        cadastroFormaPagamento.excluir(id);
 
     }
 
