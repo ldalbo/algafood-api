@@ -41,7 +41,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     @Autowired
     private MessageSource messageSource;
 
-/*
+/*  O PROFESSOR ENSINOU A FAZER COM LAMBDA
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
 
@@ -78,6 +78,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     }
 */
 
+    // É IGUAL DO ACIMA, PORÉM COM LOOP E TAMBÉM SEM BUILD DO OBJETO
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
                                                                   HttpHeaders headers,
                                                                   HttpStatus status,
@@ -105,7 +106,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
             problemObjects.add(problemField);
 
-            /*
+            /* FIZ DA FORMA MANUAL, MAS DÁ PARA FAZER COM O CONCEITO DE BUILD
             problemObjects.add(Problem.Field.builder()
                     .name(objetoTexto)
                     .userMessage(message).build());
@@ -206,6 +207,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     }
     // NoHandlerFoundException
 
+    // ESSE É PARA TRATAR O INTERNAL SERVER ERROR
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleExpecionGenerica(Exception ex, WebRequest request) {
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
@@ -227,7 +229,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
     }
 
-
+    // TRATA JSON EM FORMATO INVÁLIDO, ERRO DE SINTAXE
     @Override
     protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         ProblemType problemType = ProblemType.JSON_INVALIDO;
@@ -239,7 +241,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(ex, problem, headers, status, request);
 
     }
-
+    // TRATA TIPO DE DADO INVÁLIDO, EXEMPLO ATRIBUIR STRING ONDE É NUMERO
     private ResponseEntity<Object> handleInvalidFormatException(InvalidFormatException ex,
                                                                 HttpHeaders headers, HttpStatus status, WebRequest request) {
 
@@ -257,7 +259,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(ex, problem, headers, status, request);
     }
 
-
+    // ESSE DÁ O ERRO BONITINHO EM CASO DE ENTIDADE NÃO ENCONTRADA
     @ExceptionHandler(EntidadeNaoEncontradaException.class)
     public ResponseEntity<?> handleEntidadeNaoEncontrada(EntidadeNaoEncontradaException e, WebRequest request){
         HttpStatus status = HttpStatus.NOT_FOUND;
@@ -271,7 +273,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
 
-
+    // TRATA ENTIDADE EM USO
     @ExceptionHandler(EntidadeEmUsoException.class)
     public ResponseEntity<?> handleEntidadeEmUso(EntidadeEmUsoException e, WebRequest request){
         HttpStatus status = HttpStatus.CONFLICT;

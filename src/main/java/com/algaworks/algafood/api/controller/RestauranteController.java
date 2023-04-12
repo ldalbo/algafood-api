@@ -82,7 +82,7 @@ public class RestauranteController {
 
     @PutMapping("/{restauranteId}")
     public RestauranteModel atualizar(@PathVariable  Long restauranteId,
-                                 @RequestBody @Valid RestauranteInput restauranteInput) {
+                                     @RequestBody @Valid RestauranteInput restauranteInput) {
         try {
 
 
