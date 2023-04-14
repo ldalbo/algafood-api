@@ -23,9 +23,12 @@ public class UsuarioService {
 
     @Transactional
     public Usuario salvar(Usuario usuario){
+
         if (usuario.getDataCadastro() == null){
             usuario.setDataCadastro(OffsetDateTime.now());
         }
+
+
         return usuarioRepository.save(usuario);
 
     }

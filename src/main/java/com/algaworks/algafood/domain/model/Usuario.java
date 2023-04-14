@@ -3,6 +3,7 @@ package com.algaworks.algafood.domain.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
