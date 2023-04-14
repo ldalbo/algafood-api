@@ -23,22 +23,25 @@ public class UsuarioService {
 
     @Transactional
     public Usuario salvar(Usuario usuario){
-        if (usuario.getDataCadastro() != null){
+        if (usuario.getDataCadastro() == null){
             usuario.setDataCadastro(OffsetDateTime.now());
         }
-
         return usuarioRepository.save(usuario);
 
     }
 
-    public void senhaOK(UsuarioSenhaInput usuarioSenhaInput,Usuario usuario){
-        String senhaAntigaSalva = usuario.getSenha();
-        if (!senhaAntigaSalva.equals(usuarioSenhaInput.getSenhaAtual())){
+    // Se não for colocado @Transactional o "setNovaSenha" não funciona
+    @Transactional
+    public void trocaSenha(Long usuarioId, String senhaAtual, String novaSenha){
+        Usuario usuario = buscarOuFalhar(usuarioId);
+        if (!usuario.getSenha().equals(senhaAtual)){
             throw new UsuarioSenhaInvalidaException("Senha digitada não confere com a senha atual");
         }
-        if (usuarioSenhaInput.getSenhaAtual().equals(usuarioSenhaInput.getSenhaNova())){
+        if (senhaAtual.equals(novaSenha)){
             throw new UsuarioSenhaInvalidaException("Senha nova não pode ser igual da antiga");
         }
+        usuario.setSenha(novaSenha);
+
 
     }
 

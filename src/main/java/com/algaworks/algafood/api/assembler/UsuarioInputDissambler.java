@@ -10,19 +10,19 @@ import org.springframework.stereotype.Component;
 @Component
 public class UsuarioInputDissambler {
 
+
+
+
     @Autowired
     ModelMapper modelMapper;
 
     // Aqui pelo que entendi, faço o mapeamento sem copiar
-    // Tranformo o Json que entra em Objeto
     public Usuario domainToObject(UsuarioInput usuarioInput){
         return modelMapper.map(usuarioInput, Usuario.class);
     }
 
 
-    // Aqui faço a cópia da usuarioInput para um objeto
-    // como o segundo parametro é 1 objeto, a alteração dele
-    // reflete para quem chama
+    // Aqui faço a cópia da formaPagamentoInput para um objeto
     public void copyDomainToObject(UsuarioInput usuarioInput, Usuario usuario){
         // que copia volta void, por isso o que chama tb usa o void
         modelMapper.map(usuarioInput,usuario);

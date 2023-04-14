@@ -31,10 +31,10 @@ public class ModelMapperConfig {
 			.addMapping(UsuarioSenhaInput::getSenhaNova, Usuario::setSenha);
 */
 
-      /*
+
         var senhaNovaInputToUsuarioTypeMap = modelMapper.createTypeMap(
                 UsuarioSenhaInput.class, Usuario.class);
- */
+
         var enderecoToEnderecoModelTypeMap = modelMapper.createTypeMap(
                 Endereco.class, EnderecoModel.class);
 
