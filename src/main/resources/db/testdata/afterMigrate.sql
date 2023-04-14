@@ -75,3 +75,8 @@ insert into grupo (id, nome) values (1, 'Gerente');
 insert into grupo (id, nome) values (2, 'Vendedor');
 insert into grupo (id, nome) values (3, 'Secretária');
 insert into grupo (id, nome) values (4, 'Cadastrador');
+
+
+insert into usuario (id, nome,email,senha,data_cadastro) values (1, 'Leandro Dal Bó','ldalbo@gmail.com','1234',utc_timestamp);
+insert into usuario (id, nome,email,senha,data_cadastro) values (2, 'Guilherme Guera','guerra@gmail.com','1234',utc_timestamp);
+

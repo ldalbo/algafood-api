@@ -34,7 +34,7 @@ public class Usuario {
     private String senha;
 
     @CreatedDate
-    @Column(nullable = false, columnDefinition = "datetime")
+    @Column(name="data_cadastro", nullable = false, columnDefinition = "datetime")
     private OffsetDateTime dataCadastro;
 
     @ManyToMany

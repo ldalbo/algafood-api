@@ -21,15 +21,15 @@ public class Cozinha {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull(groups = Groups.CozinhaId.class)
+
     private Long id;
 
-    @NotBlank
+
     @Column(name="nome")
     private String nome;
 
 
-    @JsonIgnore
+
     @OneToMany(mappedBy = "cozinha")
     private List<Restaurante> restaurante = new ArrayList<>();
 
