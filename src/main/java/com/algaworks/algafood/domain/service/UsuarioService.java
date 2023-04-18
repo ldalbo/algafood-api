@@ -28,7 +28,6 @@ public class UsuarioService {
             usuario.setDataCadastro(OffsetDateTime.now());
         }
 
-
         return usuarioRepository.save(usuario);
 
     }
