@@ -57,7 +57,7 @@ public class RestauranteController {
     }
 
     @GetMapping("{id}")
-    public RestauranteModel buscar(@PathVariable("id") Long restauranteId){
+    public RestauranteModel listar(@PathVariable("id") Long restauranteId){
 
         Restaurante restaurante = cadastroRestaurante.buscarOuFalhar(restauranteId);
         return restauranteModelAssembler.toModel(restaurante);

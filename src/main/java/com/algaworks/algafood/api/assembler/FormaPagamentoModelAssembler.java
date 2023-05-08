@@ -1,16 +1,19 @@
 package com.algaworks.algafood.api.assembler;
 
 
-import com.algaworks.algafood.api.model.CozinhaModel;
+
 import com.algaworks.algafood.api.model.FormaPagamentoModel;
-import com.algaworks.algafood.api.model.input.FormaPagamentoInput;
-import com.algaworks.algafood.api.model.input.RestauranteInput;
-import com.algaworks.algafood.domain.model.Cozinha;
+
 import com.algaworks.algafood.domain.model.FormaPagamento;
-import com.algaworks.algafood.domain.model.Restaurante;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 
 
 // 
@@ -24,5 +27,27 @@ public class FormaPagamentoModelAssembler {
     public FormaPagamentoModel toModel(FormaPagamento formaPagamento){
         return modelMapper.map(formaPagamento, FormaPagamentoModel.class );
     }
+
+    // FORMA SEM LAMBDA
+    public List<FormaPagamentoModel> toCollectionModel(Collection<FormaPagamento> formasPagamentos) {
+
+        //List<FormaPagamentoModel> formasPagamento = new  ArrayList<FormaPagamentoModel>();
+        // OU
+        List<FormaPagamentoModel> formasPagamentoModel = new  ArrayList<>();
+
+        List<FormaPagamentoModel> formaPagamentoModel = new ArrayList<>();
+        for (FormaPagamento formasPagamento : formasPagamentos) {
+            formasPagamentoModel.add(toModel(formasPagamento));
+        }
+        return formasPagamentoModel;
+    }
+
+    /*
+    public List<FormaPagamentoModel> toCollectionModel(List<FormaPagamento> formasPagamentos) {
+        return formasPagamentos.stream()
+                .map(formaPagamento -> toModel(formaPagamento))
+                .collect(Collectors.toList());
+    }
+    */
 
 }

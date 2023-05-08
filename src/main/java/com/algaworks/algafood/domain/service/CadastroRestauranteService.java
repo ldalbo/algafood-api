@@ -1,13 +1,10 @@
 package com.algaworks.algafood.domain.service;
 
-import com.algaworks.algafood.domain.model.Cidade;
-import com.algaworks.algafood.domain.model.Endereco;
-import com.algaworks.algafood.domain.model.Restaurante;
+import com.algaworks.algafood.domain.model.*;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exception.RestauranteNaoEncontradoException;
-import com.algaworks.algafood.domain.model.Cozinha;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -29,6 +26,8 @@ public class CadastroRestauranteService {
     @Autowired
     private CadastroCidadeService cadastroCidade;
 
+    @Autowired
+    private FormaPagamentoService cadastroFormaPagamento;
 
     @Transactional
     public Restaurante salvar(Restaurante restaurante){
@@ -62,6 +61,8 @@ public class CadastroRestauranteService {
     }
 
 
+
+
     public Restaurante buscarOuFalhar(Long id){
         return restauranteRepository.findById(id)
                 .orElseThrow(() ->new RestauranteNaoEncontradoException(
@@ -82,4 +83,20 @@ public class CadastroRestauranteService {
         // Não precisa de save, pois o JPA já faz o commit
         restauranteAtual.inativar();
     }
+
+    @Transactional
+    public void associarFormaPagamento(Long restauranteId, Long formaPagamentoId){
+        Restaurante restaurante = buscarOuFalhar(restauranteId);
+        FormaPagamento formaPagamento = cadastroFormaPagamento.buscarOuFalhar(formaPagamentoId);
+        restaurante.adicionarFormaPagamento(formaPagamento);
+    }
+
+
+    @Transactional
+    public void desassociarFormaPagamento(Long restauranteId, Long formaPagamentoId){
+        Restaurante restaurante = buscarOuFalhar(restauranteId);
+        FormaPagamento formaPagamento = cadastroFormaPagamento.buscarOuFalhar(formaPagamentoId);
+        restaurante.removerFormaPagamento(formaPagamento);
+    }
+
 }

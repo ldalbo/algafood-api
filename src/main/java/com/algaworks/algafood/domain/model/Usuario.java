@@ -1,15 +1,16 @@
 package com.algaworks.algafood.domain.model;
 
-
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import org.hibernate.annotations.ColumnDefault;
-import org.springframework.data.annotation.CreatedDate;
-
-import javax.persistence.*;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.*;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -33,7 +34,7 @@ public class Usuario {
     @Column(name="senha", nullable = false)
     private String senha;
 
-    @CreatedDate
+    @CreationTimestamp
     @Column(name="data_cadastro", nullable = false, columnDefinition = "datetime")
     private OffsetDateTime dataCadastro;
 

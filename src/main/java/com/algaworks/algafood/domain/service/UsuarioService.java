@@ -1,6 +1,7 @@
 package com.algaworks.algafood.domain.service;
 
-import com.algaworks.algafood.api.model.input.UsuarioSenhaInput;
+
+import com.algaworks.algafood.domain.exception.NegocioException;
 import com.algaworks.algafood.domain.exception.UsuarioEmUsoException;
 import com.algaworks.algafood.domain.exception.UsuarioNaoEncontradoException;
 import com.algaworks.algafood.domain.exception.UsuarioSenhaInvalidaException;
@@ -12,7 +13,9 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.OffsetDateTime;
+import javax.persistence.EntityManager;
+import java.util.Optional;
+
 
 @Service
 public class UsuarioService {
@@ -21,11 +24,20 @@ public class UsuarioService {
     @Autowired
     UsuarioRepository usuarioRepository;
 
+    @Autowired
+    EntityManager entityManager;
     @Transactional
     public Usuario salvar(Usuario usuario){
+        // entityManager.detach(usuario);
 
-        if (usuario.getDataCadastro() == null){
-            usuario.setDataCadastro(OffsetDateTime.now());
+        usuarioRepository.detach(usuario);
+
+        // ANTES DE CONSULTA, O JPA JÁ SALVA, PARA GARANTIR INTEGRIDADE
+        Optional<Usuario> usuarioExistente = usuarioRepository.findByEmail(usuario.getEmail());
+
+        if (usuarioExistente.isPresent() &&  !usuario.equals(usuarioExistente.get())) {
+            throw new NegocioException(String.format("Este e-mail já está em uso %s",usuario.getEmail()));
+
         }
 
         return usuarioRepository.save(usuario);
