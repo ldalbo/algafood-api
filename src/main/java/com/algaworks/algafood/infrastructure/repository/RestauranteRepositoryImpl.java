@@ -1,5 +1,6 @@
 package com.algaworks.algafood.infrastructure.repository;
 
+import com.algaworks.algafood.domain.model.Produto;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.RestauranteRepositoryQueries;
 import org.springframework.stereotype.Repository;
@@ -30,5 +31,7 @@ public class RestauranteRepositoryImpl implements RestauranteRepositoryQueries {
 
         return query.getResultList();
     }
+
+
 }
 

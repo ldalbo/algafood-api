@@ -24,6 +24,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.context.annotation.Lazy;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -68,6 +69,7 @@ public class Restaurante {
     private Set<FormaPagamento> formasPagamento = new HashSet<>();
 
     @OneToMany(mappedBy = "restaurante")
+
     private List<Produto> produtos = new ArrayList<>();
 
     public void ativar(){

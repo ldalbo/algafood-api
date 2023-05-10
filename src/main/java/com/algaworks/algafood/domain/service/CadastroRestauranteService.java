@@ -1,5 +1,6 @@
 package com.algaworks.algafood.domain.service;
 
+import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.model.*;
 
 
@@ -75,6 +76,15 @@ public class CadastroRestauranteService {
                         id));
     }
 
+/*
+    public Produto buscarOuFalharProduto(Long produtoId, Long restauranteId  )  {
+
+        return produtoRepository.findByIdAndRestauranteId(produtoId,restauranteId)
+                .orElseThrow(() ->new EntidadeNaoEncontradaException("Bla bla") {
+                });
+
+    }
+  */
     @Transactional
     public void ativar(Long restauranteId ){
         Restaurante restauranteAtual = buscarOuFalhar(restauranteId);
