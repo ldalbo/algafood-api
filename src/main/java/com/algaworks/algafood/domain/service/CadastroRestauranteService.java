@@ -1,7 +1,10 @@
 package com.algaworks.algafood.domain.service;
 
 import com.algaworks.algafood.domain.model.*;
+
+
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
+import com.algaworks.algafood.domain.repository.ProdutoRepository;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exception.RestauranteNaoEncontradoException;
@@ -21,10 +24,16 @@ public class CadastroRestauranteService {
     private CozinhaRepository cozinhaRepository;
 
     @Autowired
+    private ProdutoRepository produtoRepository;
+
+    @Autowired
     private CadastroCozinhaService cadastroCozinha;
 
     @Autowired
     private CadastroCidadeService cadastroCidade;
+
+    @Autowired
+    private CadastroProdutoService cadastroProduto;
 
     @Autowired
     private FormaPagamentoService cadastroFormaPagamento;
@@ -32,7 +41,6 @@ public class CadastroRestauranteService {
     @Transactional
     public Restaurante salvar(Restaurante restaurante){
         Long cozinhaId = restaurante.getCozinha().getId();
-        Endereco endereco = restaurante.getEndereco();
         Long cidadeId = restaurante.getEndereco().getCidade().getId();
 
         // Caso não existam, lança exceção
@@ -42,9 +50,7 @@ public class CadastroRestauranteService {
         restaurante.getEndereco().setCidade(cidade);
         restaurante.setCozinha(cozinha);
         return restauranteRepository.save(restaurante);
-
     }
-
 
     @Transactional
     public void exluir(Long restauranteId){
@@ -90,13 +96,27 @@ public class CadastroRestauranteService {
         FormaPagamento formaPagamento = cadastroFormaPagamento.buscarOuFalhar(formaPagamentoId);
         restaurante.adicionarFormaPagamento(formaPagamento);
     }
-
-
     @Transactional
     public void desassociarFormaPagamento(Long restauranteId, Long formaPagamentoId){
         Restaurante restaurante = buscarOuFalhar(restauranteId);
         FormaPagamento formaPagamento = cadastroFormaPagamento.buscarOuFalhar(formaPagamentoId);
         restaurante.removerFormaPagamento(formaPagamento);
     }
+    @Transactional
+    public Produto adicionarProduto(Long restauranteId, Produto produto){
+        Restaurante restaurante = buscarOuFalhar(restauranteId);
+        produto.setRestaurante(restaurante);
+        return produtoRepository.save(produto);
+    }
+
+    @Transactional
+    public Produto atualizarProdutoRestaurante(Produto produto ){
+        return produtoRepository.save(produto);
+    }
+
+
+
+
+
 
 }
