@@ -1,6 +1,7 @@
 package com.algaworks.algafood.domain.service;
 
 import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
+import com.algaworks.algafood.domain.exception.NegocioException;
 import com.algaworks.algafood.domain.model.*;
 
 
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class CadastroRestauranteService {
     private static final String MSG_RESTAURANTE_EM_USO = "O Restaurante %s está em uso";
+    private static final String MSG_PRODUTO_INVALIDO = "Produto %s não pertence a resaturante %s ";
     @Autowired
     private RestauranteRepository restauranteRepository;
 
@@ -63,7 +65,7 @@ public class CadastroRestauranteService {
             throw new RestauranteNaoEncontradoException( restauranteId);
         }
         catch (DataIntegrityViolationException e){
-            throw  new EntidadeEmUsoException(String.format(MSG_RESTAURANTE_EM_USO,restauranteId));
+            throw  new EntidadeEmUsoException(String.format(MSG_RESTAURANTE_EM_USO, restauranteId));
         }
     }
 
@@ -76,15 +78,16 @@ public class CadastroRestauranteService {
                         id));
     }
 
-/*
+
     public Produto buscarOuFalharProduto(Long produtoId, Long restauranteId  )  {
 
+
         return produtoRepository.findByIdAndRestauranteId(produtoId,restauranteId)
-                .orElseThrow(() ->new EntidadeNaoEncontradaException("Bla bla") {
+                .orElseThrow(() ->new EntidadeNaoEncontradaException(String.format(MSG_PRODUTO_INVALIDO,produtoId,restauranteId)) {
                 });
 
     }
-  */
+
     @Transactional
     public void ativar(Long restauranteId ){
         Restaurante restauranteAtual = buscarOuFalhar(restauranteId);

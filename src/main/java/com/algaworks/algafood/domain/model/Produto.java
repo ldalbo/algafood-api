@@ -2,6 +2,7 @@ package com.algaworks.algafood.domain.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.context.annotation.Lazy;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -30,6 +31,7 @@ public class Produto {
 
     @ManyToOne
     @JoinColumn(name = "restaurante_id")
+    @Lazy
     private Restaurante restaurante;
 
 }

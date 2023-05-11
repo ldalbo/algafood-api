@@ -69,7 +69,7 @@ public class Restaurante {
     private Set<FormaPagamento> formasPagamento = new HashSet<>();
 
     @OneToMany(mappedBy = "restaurante")
-
+    @Lazy
     private List<Produto> produtos = new ArrayList<>();
 
     public void ativar(){

@@ -50,7 +50,11 @@ public class RestauranteProdutoController {
         return produtoModelAssembler.toCollectionModel(produtos);
     }
 
-
+    @GetMapping("/{produtoId}")
+    public ProdutoModel buscaUm(@PathVariable Long restauranteId, @PathVariable Long produtoId) {
+        Produto produto = cadastroRestaurante.buscarOuFalharProduto(produtoId,restauranteId);
+        return produtoModelAssembler.toModel(produto);
+    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -69,7 +73,7 @@ public class RestauranteProdutoController {
                                          @PathVariable Long produtoId,
                                          @RequestBody @Valid ProdutoInput produtoInput) {
         Restaurante restauranteSalvo = cadastroRestaurante.buscarOuFalhar(restauranteId);
-        Produto produtoSalvo = cadastroProduto.buscarOuFalhar(produtoId);
+        Produto produtoSalvo = cadastroRestaurante.buscarOuFalharProduto(produtoId,restauranteId);
         produtoInputDissambler.copyDomainToObject(produtoInput,produtoSalvo);
         System.out.println(produtoSalvo.getNome() + " # restauranteId " +  produtoSalvo.getRestaurante().getId());
         return produtoModelAssembler.toModel(cadastroRestaurante.atualizarProdutoRestaurante(produtoSalvo));
