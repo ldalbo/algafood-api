@@ -46,6 +46,8 @@ public class Restaurante {
 
     private Boolean ativo = Boolean.TRUE;
 
+    private Boolean aberto = Boolean.FALSE;
+
 
     @ManyToOne
     @JoinColumn(name = "cozinha_id", nullable = false)
@@ -69,7 +71,6 @@ public class Restaurante {
     private Set<FormaPagamento> formasPagamento = new HashSet<>();
 
     @OneToMany(mappedBy = "restaurante")
-    @Lazy
     private List<Produto> produtos = new ArrayList<>();
 
     public void ativar(){
@@ -78,6 +79,15 @@ public class Restaurante {
 
     public void inativar(){
         setAtivo(false);
+    }
+
+
+    public void abrir(){
+        setAberto(true);
+    }
+
+    public void fechar(){
+        setAberto(false);
     }
 
     public boolean removerFormaPagamento(FormaPagamento formaPagamento){

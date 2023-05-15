@@ -52,7 +52,7 @@ public class RestauranteProdutoController {
 
     @GetMapping("/{produtoId}")
     public ProdutoModel buscaUm(@PathVariable Long restauranteId, @PathVariable Long produtoId) {
-        Produto produto = cadastroRestaurante.buscarOuFalharProduto(produtoId,restauranteId);
+        Produto produto = cadastroProduto.buscarOuFalhar(restauranteId, produtoId);
         return produtoModelAssembler.toModel(produto);
     }
 
@@ -62,8 +62,10 @@ public class RestauranteProdutoController {
                                   @RequestBody @Valid ProdutoInput produtoInput) {
 
         Produto produto = new Produto();
+        Restaurante restaurante = cadastroRestaurante.buscarOuFalhar(restauranteId);
         produto = produtoInputDissambler.domainToObject(produtoInput);
-        return produtoModelAssembler.toModel(cadastroRestaurante.adicionarProduto(restauranteId,produto));
+        produto.setRestaurante(restaurante);
+        return produtoModelAssembler.toModel(cadastroProduto.salvar(produto));
     }
 
 
@@ -72,24 +74,12 @@ public class RestauranteProdutoController {
     public ProdutoModel atualizarProduto(@PathVariable Long restauranteId,
                                          @PathVariable Long produtoId,
                                          @RequestBody @Valid ProdutoInput produtoInput) {
-        Restaurante restauranteSalvo = cadastroRestaurante.buscarOuFalhar(restauranteId);
-        Produto produtoSalvo = cadastroRestaurante.buscarOuFalharProduto(produtoId,restauranteId);
+        Produto produtoSalvo = cadastroProduto.buscarOuFalhar(restauranteId, produtoId);
         produtoInputDissambler.copyDomainToObject(produtoInput,produtoSalvo);
-        System.out.println(produtoSalvo.getNome() + " # restauranteId " +  produtoSalvo.getRestaurante().getId());
-        return produtoModelAssembler.toModel(cadastroRestaurante.atualizarProdutoRestaurante(produtoSalvo));
+        return produtoModelAssembler.toModel(cadastroProduto.salvar(produtoSalvo));
     }
 
 
-
-    /*
-    @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public GrupoModel atualizar(@RequestBody @Valid GrupoInput grupoInput, @PathVariable("id") Long id){
-        Grupo grupoSalvo = cadastroGrupo.buscarOuFalhar(id);
-        grupoInputDissambler.copyDomainToObject(grupoInput,grupoSalvo);
-        return grupoModelAssembler.toModel(grupoSalvo);
-    }
-    */
 
 }
 

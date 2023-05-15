@@ -10,12 +10,10 @@ import com.algaworks.algafood.domain.exception.CidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.exception.CozinhaNaoEncontradaException;
 import com.algaworks.algafood.domain.exception.NegocioException;
 import com.algaworks.algafood.domain.exception.RestauranteNaoEncontradoException;
-import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.model.Restaurante;
 
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
 import com.algaworks.algafood.domain.service.CadastroRestauranteService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
@@ -133,6 +131,18 @@ public class RestauranteController {
         }
     }
 
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PutMapping("/{restauranteId}/abertura")
+    public void abrir(@PathVariable  Long restauranteId) {
+        cadastroRestaurante.abrir(restauranteId);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PutMapping("/{restauranteId}/fechamento")
+    public void fechar(@PathVariable  Long restauranteId) {
+        cadastroRestaurante.fechar(restauranteId);
+    }
 
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

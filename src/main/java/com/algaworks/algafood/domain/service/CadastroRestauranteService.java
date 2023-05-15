@@ -1,7 +1,5 @@
 package com.algaworks.algafood.domain.service;
 
-import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
-import com.algaworks.algafood.domain.exception.NegocioException;
 import com.algaworks.algafood.domain.model.*;
 
 
@@ -19,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class CadastroRestauranteService {
     private static final String MSG_RESTAURANTE_EM_USO = "O Restaurante %s está em uso";
-    private static final String MSG_PRODUTO_INVALIDO = "Produto %s não pertence a resaturante %s ";
+
     @Autowired
     private RestauranteRepository restauranteRepository;
 
@@ -79,20 +77,26 @@ public class CadastroRestauranteService {
     }
 
 
-    public Produto buscarOuFalharProduto(Long produtoId, Long restauranteId  )  {
 
-
-        return produtoRepository.findByIdAndRestauranteId(produtoId,restauranteId)
-                .orElseThrow(() ->new EntidadeNaoEncontradaException(String.format(MSG_PRODUTO_INVALIDO,produtoId,restauranteId)) {
-                });
-
-    }
 
     @Transactional
     public void ativar(Long restauranteId ){
         Restaurante restauranteAtual = buscarOuFalhar(restauranteId);
         // Não precisa de save, pois o JPA já faz o commit
         restauranteAtual.ativar();
+    }
+
+
+    @Transactional
+    public void abrir(Long restauranteId){
+        Restaurante restauranteAtual = buscarOuFalhar(restauranteId);
+        restauranteAtual.abrir();
+    }
+
+    @Transactional
+    public void fechar(Long restauranteId ){
+        Restaurante restauranteAtual = buscarOuFalhar(restauranteId);
+        restauranteAtual.fechar();
     }
 
 
@@ -115,17 +119,8 @@ public class CadastroRestauranteService {
         FormaPagamento formaPagamento = cadastroFormaPagamento.buscarOuFalhar(formaPagamentoId);
         restaurante.removerFormaPagamento(formaPagamento);
     }
-    @Transactional
-    public Produto adicionarProduto(Long restauranteId, Produto produto){
-        Restaurante restaurante = buscarOuFalhar(restauranteId);
-        produto.setRestaurante(restaurante);
-        return produtoRepository.save(produto);
-    }
 
-    @Transactional
-    public Produto atualizarProdutoRestaurante(Produto produto ){
-        return produtoRepository.save(produto);
-    }
+
 
 
 
