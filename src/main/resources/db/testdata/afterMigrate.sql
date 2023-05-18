@@ -80,3 +80,8 @@ insert into grupo (id, nome) values (4, 'Cadastrador');
 insert into usuario (id, nome,email,senha,data_cadastro) values (1, 'Leandro Dal Bó','ldalbo@gmail.com','1234',utc_timestamp);
 insert into usuario (id, nome,email,senha,data_cadastro) values (2, 'Guilherme Guera','guerra@gmail.com','1234',utc_timestamp);
 
+insert into grupo_permissao (grupo_id, permissao_id) values (1, 1), (1, 2), (2, 1), (2, 2), (3, 1);
+
+
+insert into usuario_grupo (usuario_id, grupo_id) values (1, 1), (1, 2), (2, 2);
+
