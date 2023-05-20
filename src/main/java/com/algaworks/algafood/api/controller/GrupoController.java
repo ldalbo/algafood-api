@@ -35,13 +35,8 @@ public class GrupoController {
     public List<GrupoModel>  listar(){
         List<Grupo> grupos = grupoRepository.findAll();
 
+        return grupoModelAssembler.toCollectionModel(grupos);
 
-        List<GrupoModel> listaGrupo = new ArrayList<GrupoModel>();
-
-        for(Grupo grupo : grupos ){
-            listaGrupo.add(grupoModelAssembler.toModel(grupo));
-        }
-        return listaGrupo;
     }
 
 

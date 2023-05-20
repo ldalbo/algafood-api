@@ -2,7 +2,9 @@ package com.algaworks.algafood.domain.model;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.*;
 
@@ -42,6 +44,19 @@ public class Usuario {
     @JoinTable(name="usuario_grupo",
         joinColumns = @JoinColumn(name = "usuario_id"),
         inverseJoinColumns = @JoinColumn(name="grupo_id"))
-  List<Grupo> grupos = new ArrayList<>();
+
+    private Set<Grupo> grupos = new HashSet<>();
+
+
+    public boolean desassociarGrupo(Grupo grupo){
+        return getGrupos().remove(grupo);
+    }
+
+    public boolean associaciarGrupo(Grupo grupo){
+        return getGrupos().add(grupo);
+
+    }
+
+
 
 }

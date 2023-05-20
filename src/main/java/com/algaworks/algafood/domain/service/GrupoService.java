@@ -6,6 +6,8 @@ import com.algaworks.algafood.domain.exception.GrupoEmUsoException;
 import com.algaworks.algafood.domain.exception.GrupoNaoEncontradoException;
 import com.algaworks.algafood.domain.model.FormaPagamento;
 import com.algaworks.algafood.domain.model.Grupo;
+import com.algaworks.algafood.domain.model.Permissao;
+import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.FormaPagamentoRepository;
 import com.algaworks.algafood.domain.repository.GrupoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,9 @@ public class GrupoService {
 
     @Autowired
     GrupoRepository grupoRepository;
+
+    @Autowired
+    PermissaoService cadastroPermissao;
 
     @Transactional
     public Grupo salvar(Grupo grupo){
@@ -45,6 +50,22 @@ public class GrupoService {
     public Grupo buscarOuFalhar(Long id){
         return grupoRepository.findById(id)
                 .orElseThrow(()-> new GrupoNaoEncontradoException(id));
+    }
+
+
+    @Transactional
+    public void associarPermissao(Long grupoId, Long permissaoId){
+        Grupo grupo = buscarOuFalhar(grupoId);
+        Permissao permissao = cadastroPermissao.buscarOuFalhar(permissaoId);
+        grupo.adicionarPermissao(permissao);
+
+    }
+
+    @Transactional
+    public void deassociarPermissao(Long grupoId, Long permissaoId){
+        Grupo grupo = buscarOuFalhar(grupoId);
+        Permissao permissao = cadastroPermissao.buscarOuFalhar(permissaoId);
+        grupo.removerPermissao(permissao);
     }
 
 }

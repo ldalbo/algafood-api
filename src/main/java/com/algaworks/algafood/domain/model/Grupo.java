@@ -6,7 +6,9 @@ import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -27,8 +29,17 @@ public class Grupo {
             inverseJoinColumns = @JoinColumn(name="permissao_id")) // ID DA OUTRA TABELA
 
     // É A OUTRA TABLEA DE ASSOCIAÇÃO
-    private List<Permissao> permissoes = new ArrayList<>();
+    // private List<Permissao> permissoes = new ArrayList<>();
+    private Set<Permissao> permissoes = new HashSet<>();
 
+
+    public boolean removerPermissao(Permissao permissao){
+        return getPermissoes().remove(permissao);
+    }
+
+    public boolean adicionarPermissao(Permissao permissao){
+        return getPermissoes().add(permissao);
+    }
 
 
 

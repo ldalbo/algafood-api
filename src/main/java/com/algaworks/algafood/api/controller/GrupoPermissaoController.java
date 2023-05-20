@@ -34,20 +34,21 @@ public class GrupoPermissaoController {
 
     }
 
-
-    /*
-    @DeleteMapping("/{formaPagamentoId}")
+    @PutMapping("/{permissaoId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void remover(@PathVariable Long restauranteId, @PathVariable Long formaPagamentoId){
-        cadastroRestaurante.desassociarFormaPagamento(restauranteId,formaPagamentoId);
+    public void associar(@PathVariable Long grupoId, @PathVariable Long permissaoId){
+        cadastroGrupo.associarPermissao(grupoId,permissaoId);
     }
 
-    @PutMapping("/{formaPagamentoId}")
+
+
+    @DeleteMapping("/{permissaoId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void adicionar(@PathVariable Long restauranteId, @PathVariable Long formaPagamentoId){
-        cadastroRestaurante.associarFormaPagamento(restauranteId,formaPagamentoId);
+    public void desassociar(@PathVariable Long grupoId, @PathVariable Long permissaoId){
+        cadastroGrupo.deassociarPermissao(grupoId,permissaoId);
     }
-    */
+
+
 }
 
 
