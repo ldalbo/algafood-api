@@ -43,14 +43,7 @@ public class UsuarioController {
     @GetMapping
     public List<UsuarioModel>  listar(){
         List<Usuario> usuarios = usuarioRepository.findAll();
-
-
-        List<UsuarioModel> listaUsuario = new ArrayList<UsuarioModel>();
-
-        for(Usuario usuario : usuarios ){
-            listaUsuario.add(usuarioModelAssembler.toModel(usuario));
-        }
-        return listaUsuario;
+        return  usuarioModelAssembler.toCollectionModel(usuarios);
     }
 
 

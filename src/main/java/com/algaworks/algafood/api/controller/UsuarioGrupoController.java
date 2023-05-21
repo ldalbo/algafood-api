@@ -31,7 +31,6 @@ public class UsuarioGrupoController {
     GrupoModelAssembler grupoModelAssembler;
 
 
-
     @GetMapping
     public List<GrupoModel> listar(@PathVariable Long usuarioId) {
         Usuario usuario = cadastroUsuario.buscarOuFalhar(usuarioId);
