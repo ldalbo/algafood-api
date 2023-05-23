@@ -153,7 +153,27 @@ public class RestauranteController {
 
 
 
+    @PutMapping("/ativacoes")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void ativaVarios(@RequestBody  @Valid List<Long> restauranteIds) {
+        try {
+            cadastroRestaurante.ativar(restauranteIds);
 
+        } catch (RestauranteNaoEncontradoException e) {
+            throw new NegocioException(e.getMessage(),e);
+        }
+    }
+
+    @DeleteMapping("/ativacoes")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void desativarVarios(@RequestBody  @Valid List<Long> restauranteIds) {
+        try {
+            cadastroRestaurante.inativar(restauranteIds);
+
+        } catch (RestauranteNaoEncontradoException e) {
+            throw new NegocioException(e.getMessage(),e);
+        }
+    }
 
 
 

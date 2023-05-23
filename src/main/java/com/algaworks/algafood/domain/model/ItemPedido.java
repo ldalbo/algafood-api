@@ -24,11 +24,11 @@ public class ItemPedido {
     private String observacao;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name="pedido_id",nullable = false)
     private Pedido pedido;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name="produto_id",nullable = false)
     private Produto produto;
 

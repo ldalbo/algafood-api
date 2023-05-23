@@ -14,6 +14,8 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class CadastroRestauranteService {
     private static final String MSG_RESTAURANTE_EM_USO = "O Restaurante %s está em uso";
@@ -82,12 +84,7 @@ public class CadastroRestauranteService {
 
 
 
-    @Transactional
-    public void ativar(Long restauranteId ){
-        Restaurante restauranteAtual = buscarOuFalhar(restauranteId);
-        // Não precisa de save, pois o JPA já faz o commit
-        restauranteAtual.ativar();
-    }
+
 
 
     @Transactional
@@ -102,11 +99,25 @@ public class CadastroRestauranteService {
         restauranteAtual.fechar();
     }
 
+    @Transactional
+    public void ativar(Long restauranteId ){
+        Restaurante restauranteAtual = buscarOuFalhar(restauranteId);
+        restauranteAtual.ativar();
+    }
+
+    @Transactional
+    public void inativar(List<Long> restauranteIds){
+        restauranteIds.forEach(this::inativar);
+    }
+
+    @Transactional
+    public void ativar(List<Long> restauranteIds){
+        restauranteIds.forEach(this::ativar);
+    }
 
     @Transactional
     public void inativar(Long restauranteId ){
         Restaurante restauranteAtual = buscarOuFalhar(restauranteId);
-        // Não precisa de save, pois o JPA já faz o commit
         restauranteAtual.inativar();
     }
 

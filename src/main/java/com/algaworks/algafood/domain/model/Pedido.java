@@ -9,6 +9,8 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -29,27 +31,27 @@ public class Pedido {
     @Column(name="valor_total",nullable = false)
     private BigDecimal valorTotal;
 
-
-    @ManyToOne (fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name="restaurante_id",nullable = false)
     private Restaurante restaurante;
 
 
-    @ManyToOne (fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name="usuario_cliente_id",nullable = false)
-    private Usuario usuarioCliente;
+    private Usuario cliente;
 
-    @ManyToOne (fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name="forma_pagamento_id",nullable = false)
     private FormaPagamento formaPagamento;
 
-    @JsonIgnore
-    @Embedded
-    private Endereco endereco;
 
+    @Embedded
+    private Endereco enderecoEntrega;
+
+    @Enumerated(EnumType.STRING)
     private StatusPedido status;
 
-    @JsonIgnore
+
     @CreationTimestamp
     @Column(nullable = false, columnDefinition = "datetime")
     private OffsetDateTime dataCriacao;
@@ -59,10 +61,9 @@ public class Pedido {
 
 
     @Column( columnDefinition = "datetime")
-    private LocalDateTime dataEntrega;
+    private OffsetDateTime dataEntrega;
 
-
-   // @OneToMany(mappedBy = "pedido")
-   // private List<ItemPedido> itemPedido = new ArrayList<>();
+    @OneToMany(mappedBy = "pedido")
+    private List<ItemPedido> itens = new ArrayList<>();
 
 }
