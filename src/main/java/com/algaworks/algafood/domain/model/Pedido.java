@@ -1,5 +1,6 @@
 package com.algaworks.algafood.domain.model;
 
+import com.algaworks.algafood.domain.exception.NegocioException;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -63,6 +64,9 @@ public class Pedido {
     @Column( columnDefinition = "datetime")
     private OffsetDateTime dataEntrega;
 
+    @Column( columnDefinition = "datetime")
+    private OffsetDateTime dataCancelamento;
+
     @OneToMany(mappedBy = "pedido", cascade =  CascadeType.ALL)
     // @OneToMany(mappedBy = "pedido")
     private List<ItemPedido> itens = new ArrayList<>();
@@ -80,5 +84,32 @@ public class Pedido {
         this.valorTotal = this.subTotal.add(this.taxaFrete);
     }
 
+
+    public void cancelar(){
+        setStatus(StatusPedido.CANCELADO);
+        setDataCancelamento(OffsetDateTime.now());
+    }
+
+
+    public void confirmar(){
+        setStatus(StatusPedido.CONFIRMADO);
+        setDataConfirmacao(OffsetDateTime.now());
+    }
+
+
+    public void entregar(){
+        setStatus(StatusPedido.ENTREGUE);
+        setDataEntrega(OffsetDateTime.now());
+    }
+    // Sobre escrevi o que o Lombook gera
+    private void setStatus(StatusPedido novoStatus){
+        if (getStatus().naoPodeAlterarStatus(novoStatus)){
+                throw new NegocioException(String.format("O pedido %d não pode mudar do status %s para o status %s" ,
+                        getId(),
+                        getStatus().getDescricacao(),
+                        novoStatus.getDescricacao()));
+        }
+        this.status = novoStatus;
+    }
 
 }

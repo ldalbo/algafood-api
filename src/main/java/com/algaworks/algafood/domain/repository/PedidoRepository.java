@@ -12,7 +12,7 @@ import java.util.Optional;
 
 public interface PedidoRepository extends CustomJpaRepository<Pedido, Long> {
 
-
+    // sobre escrevi
     @Query(" from Pedido p " +
             "join fetch p.cliente  " +
             "join fetch p.restaurante r " +
