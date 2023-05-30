@@ -7,17 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -49,7 +39,7 @@ public class Restaurante {
     private Boolean aberto = Boolean.FALSE;
 
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cozinha_id", nullable = false)
     private Cozinha cozinha;
 
@@ -116,6 +106,12 @@ public class Restaurante {
     public boolean adicionarResponsavel(Usuario responsavel){
         return getResponsaveis().add(responsavel);
     }
+
+    public boolean naoAceitaFormaPagamento(FormaPagamento formaPagamento){
+        return !getFormasPagamento().contains(formaPagamento);
+    }
+
+
 }
 
 

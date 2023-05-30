@@ -38,7 +38,7 @@ create table item_pedido (
   produto_id bigint not null,
   
   primary key (id),
-  unique key uk_item_pedido_produto (pedido_id, produto_id),
+  -- unique key uk_item_pedido_produto (pedido_id, produto_id),
 
   constraint fk_item_pedido_pedido foreign key (pedido_id) references pedido (id),
   constraint fk_item_pedido_produto foreign key (produto_id) references produto (id)
