@@ -42,10 +42,10 @@ public class EmissaoPedidoService {
     @Autowired
     UsuarioService cadastroUsuario;
 
-    public Pedido buscarOuFalhar(Long pedidoId)  {
+    public Pedido buscarOuFalhar(String pedidoCodigo)  {
 
-        return pedidoRepository.findById(pedidoId)
-                .orElseThrow(() ->new PedidoNaoEncontradoException(pedidoId) {
+        return pedidoRepository.findByCodigo(pedidoCodigo)
+                .orElseThrow(() ->new PedidoNaoEncontradoException(pedidoCodigo) {
                 });
     }
 

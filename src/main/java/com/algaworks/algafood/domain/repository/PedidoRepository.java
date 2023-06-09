@@ -12,6 +12,7 @@ import java.util.Optional;
 
 public interface PedidoRepository extends CustomJpaRepository<Pedido, Long> {
 
+    Optional<Pedido> findByCodigo(String codigo);
     // sobre escrevi
     @Query(" from Pedido p " +
             "join fetch p.cliente  " +
