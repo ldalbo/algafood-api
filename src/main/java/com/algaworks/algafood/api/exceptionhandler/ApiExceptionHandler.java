@@ -14,6 +14,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
@@ -78,15 +79,33 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     }
 */
 
+
+    @Override
+    protected ResponseEntity<Object> handleBindException(BindException ex,
+                                                         HttpHeaders headers,
+                                                         HttpStatus status,
+                                                         WebRequest request) {
+        //return super.handleBindException(ex, headers, status, request);
+        return handleValidationInternal(ex, status, request, ex.getBindingResult() );
+    }
+
     // É IGUAL DO ACIMA, PORÉM COM LOOP E TAMBÉM SEM BUILD DO OBJETO
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
                                                                   HttpHeaders headers,
                                                                   HttpStatus status,
                                                                   WebRequest request) {
 
+        return handleValidationInternal(ex, status, request, ex.getBindingResult() );
+
+    }
+
+    private ResponseEntity<Object> handleValidationInternal(Exception ex,
+                                                            HttpStatus status,
+                                                            WebRequest request,
+                                                            BindingResult bindingResult) {
         ProblemType problemType = ProblemType.DADOS_INVALIDOS;
         String detail = "Um ou mais campos estão inválidos. Faça o preenchimento correto e tente novamente.";
-        BindingResult bindingResult = ex.getBindingResult();
+
         // Input
         List<ObjectError> objectErrorList = bindingResult.getAllErrors();
         // Output
@@ -120,8 +139,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                 .build();
 
 
-        return handleExceptionInternal(ex,problem,new HttpHeaders(),status,request);
-
+        return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
     }
 
     @Override

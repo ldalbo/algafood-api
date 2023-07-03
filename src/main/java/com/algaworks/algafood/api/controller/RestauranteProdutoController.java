@@ -17,6 +17,7 @@ import com.algaworks.algafood.domain.model.FormaPagamento;
 import com.algaworks.algafood.domain.model.Grupo;
 import com.algaworks.algafood.domain.model.Produto;
 import com.algaworks.algafood.domain.model.Restaurante;
+import com.algaworks.algafood.domain.repository.ProdutoRepository;
 import com.algaworks.algafood.domain.service.CadastroProdutoService;
 import com.algaworks.algafood.domain.service.CadastroRestauranteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,15 +39,25 @@ public class RestauranteProdutoController {
     CadastroProdutoService cadastroProduto;
 
     @Autowired
+    ProdutoRepository produtoRepository;
+
+    @Autowired
     ProdutoModelAssembler produtoModelAssembler;
 
     @Autowired
     ProdutoInputDissambler produtoInputDissambler;
 
     @GetMapping
-    public List<ProdutoModel> listar(@PathVariable Long restauranteId) {
+    public List<ProdutoModel> listar(@PathVariable Long restauranteId,
+                                     @RequestParam(required = false) boolean incluirInativos) {
         Restaurante restaurante = cadastroRestaurante.buscarOuFalhar(restauranteId);
-        List<Produto> produtos = restaurante.getProdutos();
+        List<Produto> produtos;
+        if (incluirInativos){
+            produtos = produtoRepository.findByRestaurante(restauranteId);
+        }
+        else{
+            produtos = produtoRepository.findAtivosByRestaurante(restauranteId);
+        }
         return produtoModelAssembler.toCollectionModel(produtos);
     }
 

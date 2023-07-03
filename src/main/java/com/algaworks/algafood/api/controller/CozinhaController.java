@@ -14,6 +14,9 @@ import com.algaworks.algafood.domain.repository.CozinhaRepository;
 import com.algaworks.algafood.domain.service.CadastroCozinhaService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,20 +45,27 @@ public class CozinhaController {
     // ACRESCENTA NO FINAL DA PRINCIPAL, NESSE CASO NADA
 
 
-
+/*
     @GetMapping
-    public List<CozinhaModel> listar(){
+    public List<CozinhaModel> listar(Pageable pageable){
 
-        List<Cozinha> cozinhas =   cozinhaRepository.findAll();
 
-        //List<RestauranteModel> restaurantesModel = new ArrayList<RestauranteModel>();
-        // Não preciso tipar o ArrayList
-        List<CozinhaModel> cozinhasModel = new ArrayList<>();
-        for (Cozinha cozinha : cozinhas) {
-            cozinhasModel.add(cozinhaModelAssembler.toModel(cozinha));
-        }
+        Page<Cozinha> cozinhasPage =   cozinhaRepository.findAll(pageable);
+        List<CozinhaModel> cozinhasModel = cozinhaModelAssembler.toCollectionModel(cozinhasPage.getContent());
+
         return cozinhasModel;
    }
+*/
+    @GetMapping
+    public Page<CozinhaModel> listar(Pageable pageable) {
+        Page<Cozinha> cozinhasPage = cozinhaRepository.findAll(pageable);
+        List<CozinhaModel> cozinhasModel = cozinhaModelAssembler.toCollectionModel(cozinhasPage.getContent());
+        Page<CozinhaModel> cozinhasModelPage =  new PageImpl<>(cozinhasModel, pageable, cozinhasPage.getTotalElements());
+
+        return cozinhasModelPage;
+    }
+
+
 
     @GetMapping("{id}") //AQUI PODE SER QUALQUER NOME
     public CozinhaModel buscar(@PathVariable("id") Long cozinhaId){ // explicito é dizer "Pegue do Mapping o "id"
