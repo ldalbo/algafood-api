@@ -15,8 +15,7 @@ public class PedidoSpecs {
 		return (root, query, builder) -> {
 			var predicates = new ArrayList<Predicate>();
 
-			root.fetch("restaurante");
-			root.fetch("cozinha");
+			root.fetch("restaurante").fetch("cozinha");
 			root.fetch("cliente");
 			// Adicionando os predicados
 			if (filtro.getClienteId() != null){

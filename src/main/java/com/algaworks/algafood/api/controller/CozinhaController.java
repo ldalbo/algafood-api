@@ -56,13 +56,11 @@ public class CozinhaController {
         return cozinhasModel;
    }
 */
-    @GetMapping
+   @GetMapping
     public Page<CozinhaModel> listar(Pageable pageable) {
         Page<Cozinha> cozinhasPage = cozinhaRepository.findAll(pageable);
         List<CozinhaModel> cozinhasModel = cozinhaModelAssembler.toCollectionModel(cozinhasPage.getContent());
-        Page<CozinhaModel> cozinhasModelPage =  new PageImpl<>(cozinhasModel, pageable, cozinhasPage.getTotalElements());
-
-        return cozinhasModelPage;
+        return new PageImpl<>(cozinhasModel, pageable, cozinhasPage.getTotalElements());
     }
 
 
