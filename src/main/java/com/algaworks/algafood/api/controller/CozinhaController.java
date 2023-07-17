@@ -45,17 +45,7 @@ public class CozinhaController {
     // ACRESCENTA NO FINAL DA PRINCIPAL, NESSE CASO NADA
 
 
-/*
-    @GetMapping
-    public List<CozinhaModel> listar(Pageable pageable){
 
-
-        Page<Cozinha> cozinhasPage =   cozinhaRepository.findAll(pageable);
-        List<CozinhaModel> cozinhasModel = cozinhaModelAssembler.toCollectionModel(cozinhasPage.getContent());
-
-        return cozinhasModel;
-   }
-*/
    @GetMapping
     public Page<CozinhaModel> listar(Pageable pageable) {
         Page<Cozinha> cozinhasPage = cozinhaRepository.findAll(pageable);
