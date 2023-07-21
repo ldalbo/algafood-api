@@ -1,6 +1,6 @@
 package com.algaworks.algafood;
 
-import com.algaworks.algafood.infrastructure.repository.CustomJpaRepositoryImpl;
+import com.algaworks.algafood.domain.repository.RestauranteRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import java.util.TimeZone;
 
 @SpringBootApplication
-@EnableJpaRepositories(repositoryBaseClass = CustomJpaRepositoryImpl.class)
+@EnableJpaRepositories(repositoryBaseClass = RestauranteRepository.CustomJpaRepositoryImpl.class)
 public class AlgafoodApiApplication {
 
 
