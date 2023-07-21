@@ -1,41 +1,20 @@
 package com.algaworks.algafood.domain.repository;
 
 
+import com.algaworks.algafood.domain.model.Cidade;
+import com.algaworks.algafood.domain.model.Produto;
 import com.algaworks.algafood.domain.model.Restaurante;
-import org.springframework.data.jpa.repository.support.JpaEntityInformation;
-import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-import javax.persistence.EntityManager;
+import java.util.List;
 import java.util.Optional;
 
 public interface RestauranteRepository extends CustomJpaRepository<Restaurante, Long> {
 
 
-    class CustomJpaRepositoryImpl<T,ID> extends SimpleJpaRepository<T,ID>
-            implements CustomJpaRepository<T, ID> {
-
-        private EntityManager manager;
-
-        public CustomJpaRepositoryImpl(JpaEntityInformation<T, ?> entityInformation, EntityManager entityManager) {
-            super(entityInformation, entityManager);
-            this.manager = entityManager;
-        }
-
-        @Override
-        public Optional<T> buscarPrimeiro() {
-            var jpql = "from " + getDomainClass().getCanonicalName();
-            T entity = manager.createQuery(jpql, getDomainClass())
-                    .setMaxResults(1)
-                    .getSingleResult();
-
-            return Optional.ofNullable(entity);
-        }
-
-        @Override
-        public void detach(T entity){
-            manager.detach(entity);
-        }
-    }
 }
 
 
