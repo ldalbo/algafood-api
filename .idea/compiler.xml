@@ -7,6 +7,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="algafood-java-client" />
         <module name="algafood-api" />
         <module name="algafood-api (1)" />
         <module name="algafood-api (2)" />
@@ -19,6 +20,7 @@
       <module name="algafood-api" options="-parameters" />
       <module name="algafood-api (1)" options="-parameters" />
       <module name="algafood-api (2)" options="-parameters" />
+      <module name="algafood-java-client" options="-parameters" />
       <module name="exemplo-di" options="-parameters" />
     </option>
   </component>
