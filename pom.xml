@@ -16,6 +16,7 @@
 	<description>Api de Delivery de Comida</description>
 	<properties>
 		<java.version>17</java.version>
+		<springfox.version>3.0.0</springfox.version>
 	</properties>
 	<dependencies>
 
@@ -68,6 +69,11 @@
 			<artifactId>commons-lang3</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-boot-starter</artifactId>
+			<version>${springfox.version}</version>
+		</dependency>
 
 
 
