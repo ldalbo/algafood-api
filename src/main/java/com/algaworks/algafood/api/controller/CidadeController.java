@@ -1,8 +1,14 @@
 package com.algaworks.algafood.api.controller;
 
+import com.algaworks.algafood.api.assembler.CidadeInputDissambler;
+import com.algaworks.algafood.api.assembler.CidadeModelAssembler;
+import com.algaworks.algafood.api.exceptionhandler.Problem;
+import com.algaworks.algafood.api.model.CidadeModel;
+import com.algaworks.algafood.api.model.input.CidadeInput;
 import com.algaworks.algafood.domain.exception.EstadoNaoEncontradoException;
 import com.algaworks.algafood.domain.exception.NegocioException;
 import com.algaworks.algafood.domain.model.Cidade;
+
 import com.algaworks.algafood.domain.repository.CidadeRepository;
 import com.algaworks.algafood.domain.repository.EstadoRepository;
 import com.algaworks.algafood.domain.service.CadastroCidadeService;
@@ -10,6 +16,11 @@ import com.algaworks.algafood.domain.service.CadastroEstadoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.*;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,8 +31,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/cidades")
-// Aqui faz link com a classe SpringFoxConfig
-@Api(tags = "Cidades")
+
 public class CidadeController {
 
     @Autowired
@@ -37,49 +47,68 @@ public class CidadeController {
     @Autowired
     CadastroEstadoService cadastroEstado;
 
+    @Autowired
+    CidadeInputDissambler cidadeInputDissambler;
+
+    @Autowired
+    CidadeModelAssembler cidadeModelAssembler;
 
 
-    @ApiOperation("Lista Cidades")
+
     @GetMapping
-    public List<Cidade> listar(){
-        return cidadeRepository.findAll();
-
+    public List<CidadeModel> listar(){
+        List<Cidade> cidades = cidadeRepository.findAll();
+        return cidadeModelAssembler.toCollectionModel(cidades);
 
 
 
     }
-    @ApiOperation("Busca uma cidade por ID")
+
+
     @GetMapping("{id}")
-    public Cidade buscar(@ApiParam(value = "Id de uma cidade", example = "1")
+    public CidadeModel buscar(
                       @PathVariable Long cidadeId){
-        return cadastroCidade.buscarOuFalhar(cidadeId);
+        Cidade cidade = cadastroCidade.buscarOuFalhar(cidadeId);
+
+
+
+        return cidadeModelAssembler.toModel(cidade);
 
     }
 
-    @ApiOperation("Cria uma nova cidade")
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Cidade adicionar(@ApiParam(name="corpo", value="Representação de uma cidade")
-                            @RequestBody @Valid Cidade cidade){
+    public CidadeModel adicionar(
+                            @RequestBody @Valid CidadeInput cidadeInput){
         // Preciso ver se esse estado que vem do json está persistido
         try{
-            return cadastroCidade.salvar(cidade);
+
+            // Do input transformo em objeto
+            Cidade cidade = new Cidade();
+            cidade = cidadeInputDissambler.domainToObject(cidadeInput);
+            return cidadeModelAssembler.toModel(cadastroCidade.salvar(cidade));
+
+
+
+
         }
         catch (EstadoNaoEncontradoException e ){
             System.out.println("Lançou exception EstadoNaoEncontradoException");
             throw new NegocioException(e.getMessage(),e);
         }
     }
-    @ApiOperation("Atualiza uma cidade por ID")
-   @PutMapping("{id}")
-    public Cidade atualizar(@ApiParam(value = "Id de Uma cidade", example = "1")
-                            @PathVariable("id") Long id,
-                            @RequestBody @Valid Cidade cidade){
-        Cidade cidadeAtual = cadastroCidade.buscarOuFalhar(id);
 
+
+
+   @PutMapping("{id}")
+    public CidadeModel atualizar(
+                            @PathVariable Long cidadeId,
+                            @RequestBody @Valid CidadeInput cidadeInput){
         try{
-            BeanUtils.copyProperties(cidade,cidadeAtual,"id");
-            return cadastroCidade.salvar(cidade);
+            Cidade cidadeAtual = cadastroCidade.buscarOuFalhar(cidadeId);
+            cidadeInputDissambler.copyDomainToObject(cidadeInput,cidadeAtual);
+            return cidadeModelAssembler.toModel(cidadeAtual);
         }
         catch (EstadoNaoEncontradoException e ){
             throw new NegocioException(e.getMessage(),e);
@@ -91,10 +120,17 @@ public class CidadeController {
 
 
     @ApiOperation("Exclui uma cidade por ID")
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "Cidade excluida",
+                    content = @Content(schema = @Schema(implementation = Problem.class))),
+            @ApiResponse(responseCode = "404", description = "Cidade não encontrada",
+                    content = @Content(schema = @Schema(implementation = Problem.class)))
+    })
+
+
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void apagar( @ApiParam(value = "Id de Uma cidade", example = "1")
-                        @PathVariable("id") Long Id) {
+    public void apagar( @PathVariable("id") Long Id) {
         cadastroCidade.excluir(Id);
 
 

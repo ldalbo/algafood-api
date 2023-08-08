@@ -1,7 +1,7 @@
 package com.algaworks.algafood.api.assembler;
 
-import com.algaworks.algafood.api.model.input.CozinhaInput;
-import com.algaworks.algafood.domain.model.Cozinha;
+import com.algaworks.algafood.api.model.input.CidadeInput;
+import com.algaworks.algafood.domain.model.Cidade;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,14 +15,14 @@ public class CidadeInputDissambler {
     ModelMapper modelMapper;
 
     // Usado no post
-    public Cozinha domainToObject(CozinhaInput cozinhaInput){
-        return modelMapper.map(cozinhaInput, Cozinha.class);
+    public Cidade domainToObject(CidadeInput cidadeInput){
+        return modelMapper.map(cidadeInput, Cidade.class);
     }
 
 
-    public void copyDomainToObject(CozinhaInput cozinhaInput, Cozinha cozinha){
+    public void copyDomainToObject(CidadeInput cidadeInput, Cidade cidade){
         // que copia volta void, por isso o que chama tb usa o void
-        modelMapper.map(cozinhaInput,cozinha);
+        modelMapper.map(cidadeInput,cidade);
 
     }
 

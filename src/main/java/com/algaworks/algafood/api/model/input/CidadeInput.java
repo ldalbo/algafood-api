@@ -2,6 +2,7 @@ package com.algaworks.algafood.api.model.input;
 
 import com.algaworks.algafood.core.validation.Groups;
 import com.algaworks.algafood.domain.model.Estado;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -18,14 +19,15 @@ import javax.validation.groups.Default;
 @Setter
 public class CidadeInput {
 
-    private Long id;
-    @NotNull
 
+
+    @ApiModelProperty(example = "Caxias do Sul", required = true)
     @NotNull
     private String nome;
 
+    @ApiModelProperty(example = "1", required = true)
     @Valid
     @NotNull
-    private EstadoInput estado;
+    private EstadoIdInput estado;
 
 }

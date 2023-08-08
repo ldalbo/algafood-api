@@ -1,14 +1,11 @@
 package com.algaworks.algafood.api.model;
+;
+import io.swagger.annotations.ApiModelProperty;
 
-import com.algaworks.algafood.domain.model.Estado;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+
 
 
 @Getter
@@ -17,7 +14,10 @@ public class CidadeModel {
 
     // COMO SÃO APENAS ATRIBUTOS DE SAIDA
     // NÃO PRECISA TER VALIDAÇÕES
+    @ApiModelProperty(value= "ID da Cidade",example = "1")
     private Long id;
+
+    @ApiModelProperty(example = "Caxias do Sul")
     private String nome;
     private EstadoModel estado;
 
