@@ -1,12 +1,12 @@
 package com.algaworks.algafood.core.modelmaper;
 
-import com.algaworks.algafood.api.model.EnderecoModel;
-import com.algaworks.algafood.api.model.RestauranteModel;
-import com.algaworks.algafood.api.model.input.ItemPedidoInput;
-import com.algaworks.algafood.api.model.input.UsuarioSenhaInput;
+import com.algaworks.algafood.api.v1.model.EnderecoModel;
+import com.algaworks.algafood.api.v1.model.input.ItemPedidoInput;
+import com.algaworks.algafood.api.v1.model.input.UsuarioSenhaInput;
+import com.algaworks.algafood.api.v2.model.input.CidadeInputV2;
+import com.algaworks.algafood.domain.model.Cidade;
 import com.algaworks.algafood.domain.model.Endereco;
 import com.algaworks.algafood.domain.model.ItemPedido;
-import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.model.Usuario;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
@@ -49,7 +49,17 @@ public class ModelMapperConfig {
                 ((enderecoModelDest, value) -> enderecoModelDest.getCidade().setEstado(value))
                                                  );
 
+
+        // Aqui é para a versão 2, fazer com que idEstado, não vire 1 Put
+        // se não fizer isso vai fazer com
+        // https://app.algaworks.com/aulas/2214/implementando-o-versionamento-da-api-por-media-type
+        // minuto 19
+        modelMapper.createTypeMap(CidadeInputV2.class, Cidade.class)
+                .addMappings(mapper -> mapper.skip(Cidade::setId));
+
         return modelMapper;
+
+
 
     }
 }
