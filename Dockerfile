@@ -14,10 +14,10 @@ WORKDIR /app
 # mas boto * para facilitar
 # O copy abaixo era antes da aula 24.11
 # se der o comando  docker run -it algafood-api /bin/bash conseguimos ver app/api.jar
- COPY target/*.jar /app/api.jar
+COPY target/*.jar /app/api.jar
 
 #Introduzido na aula 24.11
-# COPY target/${JAR_FILE} /app/api.jar
+#COPY target/${JAR_FILE} /app/api.jar
 
 # dá apenas documentação de qual seria a porta
 # mas a porta que vai executar e no comando run
