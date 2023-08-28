@@ -1,23 +1,13 @@
 # Nome da Image open openjdk
-# Não é necessário baixar, mas precisamos indicar a versão
 FROM eclipse-temurin:17-jre-alpine
 
 # Diretório de trabalho pode ser qualquer nome
 WORKDIR /app
 
-#acrescentado na aula 24.11
-#pega a viariavel em tempo de build
-#ARG JAR_FILE
-
 
 # poderia ser explicito em colocar o nome algafood-api-0.0.1-SNAPSHOT.jar,
 # mas boto * para facilitar
-# O copy abaixo era antes da aula 24.11
-# se der o comando  docker run -it algafood-api /bin/bash conseguimos ver app/api.jar
 COPY target/*.jar /app/api.jar
-
-#Introduzido na aula 24.11
-#COPY target/${JAR_FILE} /app/api.jar
 
 # dá apenas documentação de qual seria a porta
 # mas a porta que vai executar e no comando run
@@ -29,4 +19,3 @@ EXPOSE 8080
 #aqui diz p comando que vai ser executado
 # seria como java -jar api.jar, dentro do workdir
 CMD ["java","-jar","api.jar"]
-
